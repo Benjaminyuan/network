@@ -33,7 +33,8 @@ int main(int argc, const char **argv)
     struct sockaddr_in bind_addr;
     bind_addr.sin_family = AF_INET;
     bind_addr.sin_addr.s_addr = htonl(INADDR_ANY);
-    bind_addr.sin_port = htons(3000) if (bind(listenfd, (struct sockaddr *)&bind_addr, sizeof(bind_addr)) == -1)
+    bind_addr.sin_port = htons(3000);
+    if (bind(listenfd, (struct sockaddr *)&bind_addr, sizeof(bind_addr)) == -1)
     {
         close(listenfd);
         std::cout << "bind listen socket failed " << std::endl;
@@ -73,7 +74,7 @@ int main(int argc, const char **argv)
         {
             //errno 是记录系统的最后一次错误代码
             // Interrupted system call,系统调用中断
-            if(errno == EINTR)
+            if (errno == EINTR)
             {
                 continue;
             }
@@ -84,35 +85,37 @@ int main(int argc, const char **argv)
             //1000ms内没有请求
             continue;
         }
-        for(int i=0;i<n;i++){
-            if(epoll_events[i].events & EPOLLIN)
+        for (int i = 0; i < n; i++)
+        {
+            if (epoll_events[i].events & EPOLLIN)
             {
-                if(epoll_events[i].data.fd == listenfd){
+                if (epoll_events[i].data.fd == listenfd)
+                {
                     struct sockaddr_in client_addr;
                     socklen_t client_addr_len = sizeof(client_addr);
-                    int clientfd = accept(listenfd,(struct sockaddr*)&client_addr,&client_addr_len);
-                    if(clientfd != -1)
+                    int clientfd = accept(listenfd, (struct sockaddr *)&client_addr, &client_addr_len);
+                    if (clientfd != -1)
                     {
                         //设置为非阻塞
-                        int oldSocketFlag = fcntl(clientfd,F_GETFL,0);
+                        int oldSocketFlag = fcntl(clientfd, F_GETFL, 0);
                         int newSocketFlag = oldSocketFlag | O_NONBLOCK;
-                        if(fcntl(clientfd,F_SETFD,newSocketFlag) == -1)
+                        if (fcntl(clientfd, F_SETFD, newSocketFlag) == -1)
                         {
                             close(clientfd);
-                            std::cout<< "set clientfd to nonblocking failed."<<std::endl;
+                            std::cout << "set clientfd to nonblocking failed." << std::endl;
                         }
                         else
                         {
                             epoll_event clientfd_event;
                             clientfd_event.events = EPOLLIN;
                             clientfd_event.data.fd = clientfd;
-                            if(epoll_ctl(epollfd,EPOLL_CTL_ADD,clientfd,&clietnfd_event) != -1)
+                            if (epoll_ctl(epollfd, EPOLL_CTL_ADD, clientfd, &clietnfd_event) != -1)
                             {
-                                std::cout << "new client accepted,clientfd:" << clientfd<< std::endl;
+                                std::cout << "new client accepted,clientfd:" << clientfd << std::endl;
                             }
                             else
                             {
-                                std::cout << "add client fd to epollfd failed "<< std::endl;
+                                std::cout << "add client fd to epollfd failed " << std::endl;
                                 close(clientfd);
                             }
                         }
@@ -120,36 +123,37 @@ int main(int argc, const char **argv)
                 }
                 else
                 {
-                    std::cout << "client fd: " << epoll_events[i].data.fd << "recv data."<<std::endl;
+                    std::cout << "client fd: " << epoll_events[i].data.fd << "recv data." << std::endl;
                     char ch;
-                    int m= recv(epoll_events[i].data.fd,&ch,1,0);
-                    if(m == 0){
-                        if(epoll_ctl(epollfd,EPOLL_CTL_DEL,epoll_events[i].data.fd,NULL) != -1)
+                    int m = recv(epoll_events[i].data.fd, &ch, 1, 0);
+                    if (m == 0)
+                    {
+                        if (epoll_ctl(epollfd, EPOLL_CTL_DEL, epoll_events[i].data.fd, NULL) != -1)
                         {
-                            std::cout<<"client disconnected,clientfd:"<< clientfd<< std::endl;
+                            std::cout << "client disconnected,clientfd:" << clientfd << std::endl;
                         }
                         close(epoll_events[i].data.fd);
                     }
                     else if (m < 0)
                     {
-                        if (errno != EWOULDBLOCK && errno !=EINTR)
+                        if (errno != EWOULDBLOCK && errno != EINTR)
                         {
-                            if(epoll_ctl(epollfd,EPOLL_CTL_DEL,epoll_events[i].data.fd,NULL)!= -1)
+                            if (epoll_ctl(epollfd, EPOLL_CTL_DEL, epoll_events[i].data.fd, NULL) != -1)
                             {
-                                std::cout<<"client disconnected,clientfd:"<<epoll_events[i].data.fd<<std::endl;
+                                std::cout << "client disconnected,clientfd:" << epoll_events[i].data.fd << std::endl;
                             }
                             close(epoll_events[i].data.fd);
                         }
                     }
                     else
                     {
-                        std::cout<<"recv data from client:"<<epoll_events[i].data.fd<<",data:"<<ch<< std::endl;
+                        std::cout << "recv data from client:" << epoll_events[i].data.fd << ",data:" << ch << std::endl;
                     }
                 }
             }
             else if (epoll_events[i].events & EPOLLERR)
             {
-                std::cout << "epoll err"<< std::endl;
+                std::cout << "epoll err" << std::endl;
             }
         }
     }
