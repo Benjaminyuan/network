@@ -109,7 +109,7 @@ int main(int argc, const char **argv)
                             epoll_event clientfd_event;
                             clientfd_event.events = EPOLLIN;
                             clientfd_event.data.fd = clientfd;
-                            if (epoll_ctl(epollfd, EPOLL_CTL_ADD, clientfd, &clietnfd_event) != -1)
+                            if (epoll_ctl(epollfd, EPOLL_CTL_ADD, clientfd, &clientfd_event) != -1)
                             {
                                 std::cout << "new client accepted,clientfd:" << clientfd << std::endl;
                             }
@@ -130,7 +130,7 @@ int main(int argc, const char **argv)
                     {
                         if (epoll_ctl(epollfd, EPOLL_CTL_DEL, epoll_events[i].data.fd, NULL) != -1)
                         {
-                            std::cout << "client disconnected,clientfd:" << clientfd << std::endl;
+                            std::cout << "client disconnected,clientfd:" << epoll_events[i].data.fd<< std::endl;
                         }
                         close(epoll_events[i].data.fd);
                     }
