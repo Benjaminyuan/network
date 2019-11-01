@@ -171,7 +171,7 @@ int main(int argc, const char **argv)
                 }
                 else
                 {
-                    std::out << "send data :" << m << std::endl;
+                    std::cout << "send data :" << m << std::endl;
                     epoll_event clientfd_event;
                     clientfd_event.events = EPOLLIN;
                     clientfd_event.data.fd = epoll_events[i].data.fd;
