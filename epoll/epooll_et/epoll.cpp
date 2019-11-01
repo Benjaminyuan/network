@@ -10,6 +10,7 @@
 #include <errno.h>
 #include <sys/types.h>
 
+char buffData[2024][2024];
 int main(int argc, const char **argv)
 {
     int listenfd = socket(AF_INET, SOCK_STREAM, 0);
@@ -123,9 +124,10 @@ int main(int argc, const char **argv)
                 }
                 else
                 {
-                    std::cout << "client fd: " << epoll_events[i].data.fd << "recv data." << std::endl;
-                    char ch;
-                    int m = recv(epoll_events[i].data.fd, &ch, 1, 0);
+                    std::cout << "client fd: " << epoll_events[i].data.fd << "recv data" << std::endl;
+                    int fd = epoll_events[i].data.fd
+                    char* ch = buffData[fd];
+                    int m = recv(epoll_events[i].data.fd,ch,1024, 0);
                     if (m == 0)
                     {
                         if (epoll_ctl(epollfd, EPOLL_CTL_DEL, epoll_events[i].data.fd, NULL) != -1)
@@ -148,15 +150,36 @@ int main(int argc, const char **argv)
                     else
                     {
                         std::cout << "recv data from client:" << epoll_events[i].data.fd << ",data:" << ch << std::endl;
+                        epoll_event clientfd_event;
+                        clientfd_event.events = EPOLLOUT;
+                        clientfd_event.data.fd = epoll_events[i].data.fd;
+                        epoll_ctl(epollfd,EPOLL_CTL_MOD,epoll_events[i].data.fd,&clientfd_event);
                     }
                 }
             }
-            else if (epoll_events[i].events & EPOLLERR)
+            else if (epoll_events[i].events & EPOLLOUT)
             {
-                std::cout << "epoll err" << std::endl;
+               int m =  send(epoll_events[i].events.fd,buffData[i],1024,0);
+               if(m == 0)
+               {
+                    if (epoll_ctl(epollfd, EPOLL_CTL_DEL, epoll_events[i].data.fd, NULL) != -1)
+                    {
+                        std::cout << "client disconnected,clientfd:" << epoll_events[i].data.fd<< std::endl;
+                    }
+                    close(epoll_events[i].data.fd);
+               }
+               else
+               {
+                    epoll_event clientfd_event;
+                    clientfd_event.events = EPOLLIN;
+                    clientfd_event.data.fd = epoll_events[i].data.fd;
+                    epoll_ctl(epollfd,EPOLL_CTL_MOD,epoll_events[i].data.fd,&clientfd_event);
+                }
             }
         }
     }
     close(listenfd);
     return 0;
 }
+
+
