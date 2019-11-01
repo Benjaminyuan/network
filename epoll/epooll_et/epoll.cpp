@@ -126,13 +126,13 @@ int main(int argc, const char **argv)
                 {
                     std::cout << "client fd: " << epoll_events[i].data.fd << "recv data" << std::endl;
                     int fd = epoll_events[i].data.fd;
-                    char* ch = buffData[fd];
-                    int m = recv(epoll_events[i].data.fd,ch,1024, 0);
+                    char *ch = buffData[fd];
+                    int m = recv(epoll_events[i].data.fd, ch, 1024, 0);
                     if (m == 0)
                     {
                         if (epoll_ctl(epollfd, EPOLL_CTL_DEL, epoll_events[i].data.fd, NULL) != -1)
                         {
-                            std::cout << "client disconnected,clientfd:" << epoll_events[i].data.fd<< std::endl;
+                            std::cout << "client disconnected,clientfd:" << epoll_events[i].data.fd << std::endl;
                         }
                         close(epoll_events[i].data.fd);
                     }
@@ -153,28 +153,29 @@ int main(int argc, const char **argv)
                         epoll_event clientfd_event;
                         clientfd_event.events = EPOLLOUT;
                         clientfd_event.data.fd = epoll_events[i].data.fd;
-                        epoll_ctl(epollfd,EPOLL_CTL_MOD,epoll_events[i].data.fd,&clientfd_event);
+                        epoll_ctl(epollfd, EPOLL_CTL_MOD, epoll_events[i].data.fd, &clientfd_event);
                     }
                 }
             }
-            else if (epoll_events[i].events & EPOLLOUT)
+            else if ((epoll_events[i].events & EPOLLOUT) && epoll_events[i].data.fd != listenfd)
             {
-               std::cout << "client writable " << std::endl;
-               int m =  send(epoll_events[i].data.fd,buffData[i],1024,0);
-               if(m == 0)
-               {
+                std::cout << "client writable " << std::endl;
+                int m = send(epoll_events[i].data.fd, buffData[i], 1024, 0);
+                if (m == 0)
+                {
                     if (epoll_ctl(epollfd, EPOLL_CTL_DEL, epoll_events[i].data.fd, NULL) != -1)
                     {
-                        std::cout << "client disconnected,clientfd:" << epoll_events[i].data.fd<< std::endl;
+                        std::cout << "client disconnected,clientfd:" << epoll_events[i].data.fd << std::endl;
                     }
                     close(epoll_events[i].data.fd);
-               }
-               else
-               {
+                }
+                else
+                {
+                    std::out << "send data :" << m << std::endl;
                     epoll_event clientfd_event;
                     clientfd_event.events = EPOLLIN;
                     clientfd_event.data.fd = epoll_events[i].data.fd;
-                    epoll_ctl(epollfd,EPOLL_CTL_MOD,epoll_events[i].data.fd,&clientfd_event);
+                    epoll_ctl(epollfd, EPOLL_CTL_MOD, epoll_events[i].data.fd, &clientfd_event);
                 }
             }
         }
@@ -182,5 +183,3 @@ int main(int argc, const char **argv)
     close(listenfd);
     return 0;
 }
-
-
