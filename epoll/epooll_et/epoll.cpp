@@ -125,7 +125,7 @@ int main(int argc, const char **argv)
                 else
                 {
                     std::cout << "client fd: " << epoll_events[i].data.fd << "recv data" << std::endl;
-                    int fd = epoll_events[i].data.fd
+                    int fd = epoll_events[i].data.fd;
                     char* ch = buffData[fd];
                     int m = recv(epoll_events[i].data.fd,ch,1024, 0);
                     if (m == 0)
@@ -159,7 +159,7 @@ int main(int argc, const char **argv)
             }
             else if (epoll_events[i].events & EPOLLOUT)
             {
-               int m =  send(epoll_events[i].events.fd,buffData[i],1024,0);
+               int m =  send(epoll_events[i].data.fd,buffData[i],1024,0);
                if(m == 0)
                {
                     if (epoll_ctl(epollfd, EPOLL_CTL_DEL, epoll_events[i].data.fd, NULL) != -1)
