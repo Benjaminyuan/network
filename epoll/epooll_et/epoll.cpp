@@ -159,6 +159,7 @@ int main(int argc, const char **argv)
             }
             else if (epoll_events[i].events & EPOLLOUT)
             {
+               std::cout << "client writable " << std::endl;
                int m =  send(epoll_events[i].data.fd,buffData[i],1024,0);
                if(m == 0)
                {
