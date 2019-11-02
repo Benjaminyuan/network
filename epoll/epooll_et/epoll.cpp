@@ -150,6 +150,7 @@ int main(int argc, const char **argv)
                     else
                     {
                         std::cout << "recv data from client:" << epoll_events[i].data.fd << ",data:" << ch << std::endl;
+                        send(epoll_events[i].data.fd, buffData[i], 1024, 0);
                         epoll_event clientfd_event;
                         clientfd_event.events = EPOLLOUT;
                         clientfd_event.data.fd = epoll_events[i].data.fd;
