@@ -150,7 +150,6 @@ int main(int argc, const char **argv)
                     else
                     {
                         std::cout << "recv data from client:" << epoll_events[i].data.fd << ",data:" << ch << std::endl;
-                        send(epoll_events[i].data.fd, buffData[i], 1024, 0);
                         epoll_event clientfd_event;
                         clientfd_event.events = EPOLLOUT;
                         clientfd_event.data.fd = epoll_events[i].data.fd;
@@ -160,8 +159,9 @@ int main(int argc, const char **argv)
             }
             else if ((epoll_events[i].events & EPOLLOUT) && epoll_events[i].data.fd != listenfd)
             {
-                std::cout << "client writable " << std::endl;
-                int m = send(epoll_events[i].data.fd, buffData[i], 1024, 0);
+                int fd = epoll_events[i].data.fd;
+                std::cout << "client writable " << "send-data content:"<< buffData[fd] <<std::endl;
+                int m = send(epoll_events[i].data.fd, buffData[fd], 1024, 0);
                 if (m == 0)
                 {
                     if (epoll_ctl(epollfd, EPOLL_CTL_DEL, epoll_events[i].data.fd, NULL) != -1)
@@ -172,7 +172,7 @@ int main(int argc, const char **argv)
                 }
                 else
                 {
-                    std::cout << "send data :" << m << std::endl;
+                    std::cout << "send data length :" << m << std::endl;
                     epoll_event clientfd_event;
                     clientfd_event.events = EPOLLIN;
                     clientfd_event.data.fd = epoll_events[i].data.fd;
