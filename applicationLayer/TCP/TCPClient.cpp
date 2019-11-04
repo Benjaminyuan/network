@@ -6,7 +6,7 @@
 #include<unistd.h>
 //这个包引入用于解析IPv4地址
 #include <arpa/inet.h>
-#define PORT 8008
+#define PORT 3000
 int main(int argc, char const *argv[])
 {
     struct sockaddr_in address;
