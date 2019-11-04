@@ -1,12 +1,4 @@
-#include <stdio.h>
-#include <unistd.h>
-#include <stdio.h>
-#include <string.h>
-#include <sys/socket.h>
-#include <sys/types.h>
-#include <arpa/inet.h>
-#include <iostream>
-#include<errno.h>
+#include"./server.h"
 int main(int argc, char **argv)
 {
     char buff[2014] = "my name is Benji", buff2[1024];
@@ -22,7 +14,8 @@ int main(int argc, char **argv)
     {
         std::cout << "connect failed " << std::endl;
     }
-    while ((n = read(0, buff, sizeof(buff))) > 0)
+    int in = open("./test/request",O_RDONLY,S_IRUSR);
+    while ((n = read(in, buff, sizeof(buff))) > 0)
     {
         std::cout<<"string length is "<< n<< std::endl;
         if (send(sockfd, buff, n, 0) < 0)

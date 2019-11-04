@@ -1,15 +1,4 @@
-#include <sys/epoll.h>
-#include <sys/socket.h>
-#include <arpa/inet.h>
-#include <unistd.h>
-#include <fcntl.h>
-#include <poll.h>
-#include <iostream>
-#include <string.h>
-#include <vector>
-#include <errno.h>
-#include <sys/types.h>
-
+#include"./server.h"
 char buffData[2024][2024];
 int main(int argc, const char **argv)
 {
