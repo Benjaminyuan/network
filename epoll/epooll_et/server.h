@@ -43,3 +43,18 @@ enum class RequestMethod{GET,POST,PUT,OTHER};
 //         //解析http
 //         ParseHttp(int fd);
 // }
+class http_parser
+{
+    public:
+        char buff[4048];
+        std::string method;
+        std::string url;
+        std::string protocal;
+        map<string,string> headers;
+        string Get(string key);
+        http_parser(int fd);
+        void parseHeader();
+    private:
+        void parseRequestBasicContent(const string s);
+        void parseHeaderContent(vector<string> headers);
+};
