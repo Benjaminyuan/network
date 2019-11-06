@@ -1,30 +1,6 @@
 #include"server.h"
-using namespace std;
-class HttpParser
-{
-    public:
-        char buff[4048];
-        std::string method;
-        std::string url;
-        std::string protocal;
-        map<string,string> headers;
-        string Get(string key);
-        HttpParser(int fd);
-        void parseHeader();
-    private:
-        void parseRequestBasicContent(const string s);
-        void parseHeaderContent(vector<string> headers);
-};
-HttpParser::HttpParser(int fd){
-    int n = read(fd,buff,sizeof(buff));
-    if (n < 0){
-        std::cout << " fail to read data"<<std::endl;
-    }
-    // else{
-    //     std::cout<< " data length:"<< n<< "data content"<< buff<<endl;
-    //     cout<<"----------------" <<endl;
-    // }
-    close(fd);
+HttpParser::HttpParser(const char *raw_data){
+   buff = raw_data;
 }
 string HttpParser::Get(string key){
         return headers[key];
@@ -41,7 +17,7 @@ void HttpParser::parseHeader(){
             memcpy(temp,buff+lineStart,size-1);
             string s = temp;
             if (lineStart == 0){
-                basicInfo = s; 
+                basicInfo = s;
             }else{
                 header.push_back(s);
             }
@@ -52,7 +28,7 @@ void HttpParser::parseHeader(){
     cout<<"i:"<< i<< endl;
     int size = i-lineStart+1;
     char temp[size];
-    memcpy(temp,buff+lineStart,size-1);
+    memcpy(temp,buff+lineStart,size);
     string s = temp;
     header.push_back(s);
     cout<<"header line-1:" <<basicInfo<< endl;
@@ -78,7 +54,7 @@ void HttpParser::parseRequestBasicContent (const string s){
     protocal = res[2];
 }
 void HttpParser::parseHeaderContent (vector<string> headerList){
-     cout<<"parse headers start!! total "<<headers.size()<<" line"<<endl;
+     cout<<"parse headers start!! total "<<headerList.size()<<" line"<<endl;
     for(int i=0;i<headerList.size();i++){
         string  raw = headerList[i];
         for(int j=0;raw.length();j++){
@@ -97,16 +73,3 @@ void HttpParser::parseHeaderContent (vector<string> headerList){
     cout<<"parse headers success !! total "<<headers.size()<<" line"<<endl;
 }
 
-int main(){
-    char buff[2048];
-    vector<string> header;
-    int in = open("../test/request",O_RDONLY,S_IRUSR);
-    HttpParser parser(in);
-    parser.parseHeader();
-    cout<< "url:"<<parser.url<<" method: "<< parser.method << " protocal: "<< parser.protocal<<endl;
-    for(map<string,string>::iterator it = parser.headers.begin();it != parser.headers.end();++it){
-        cout<<"header-key: "<< it->first << " value: "<< it->second << endl;
-    }
-    cout<<"not exist key:" <<parser.Get("key")<< endl;
-    cout<<"exist key:"<<parser.Get("Host")<<endl;
-}

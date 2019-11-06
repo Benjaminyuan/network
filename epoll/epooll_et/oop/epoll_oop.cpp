@@ -11,6 +11,7 @@ public:
 private:
     int epollfd;
     int listenfd;
+    std::map<int,HttpParser> httpParsers;
     char buffData[2024][2024];
     struct sockaddr_in bind_addr;
     epoll_event epoll_events[2048];
@@ -155,7 +156,19 @@ int HttpServer::Listen()
                     }
                     else
                     {
-                        std::cout << "recv data from client:" << epoll_events[i].data.fd << ",data:" << ch << std::endl;
+                        struct sockaddr_in sa;
+                        socklen_t  len = sizeof(sa);
+                        getpeername(fd, (struct sockaddr *)&sa, &len);
+                        const char * ip = inet_ntoa(sa.sin_addr);
+                        int port = int(ntohs(sa.sin_port));
+                        std::cout << "\n\n------------------------"<<std::endl;
+                        std::cout << "recv data from client:" << epoll_events[i].data.fd << "\nraw_data:" << ch << std::endl;
+                        std::cout << "\n\n------------------------"<<std::endl;
+                        std::cout<< "client_ip:"<<ip<<"\nport:"<<port<<std::endl;
+                        std::cout << "------------------------\n\n"<<std::endl;
+                        HttpParser parser(ch);
+                        parser.parseHeader();
+                        httpParsers.insert(std::make_pair(fd,parser));
                         EpollOpt(EPOLL_CTL_MOD,fd,EPOLLOUT);
                     }
                 }
@@ -163,7 +176,19 @@ int HttpServer::Listen()
            else if ((epoll_events[i].events & EPOLLOUT) && epoll_events[i].data.fd != listenfd)
             {
                 int fd = epoll_events[i].data.fd;
-                std::cout << "client writable " << "send-data content:"<< buffData[fd] <<std::endl;
+                std::map<int,HttpParser>::iterator it = httpParsers.find(fd);
+                if (it == httpParsers.end())
+                {
+                    std::cout<< "fail to get parser"<< std::endl;
+                }
+                HttpParser parser = it->second;
+                std::cout<<"-----------------"<<std::endl;
+                std::cout<< "url:"<<parser.url<<" method: "<< parser.method << " protocal: "<< parser.protocal<<std::endl;
+                std::cout<<"-----------------"<<std::endl;                
+                for(map<string,string>::iterator it = parser.headers.begin();it != parser.headers.end();++it){
+                    std::cout<<"header-key: "<< it->first << " value: "<< it->second << std::endl;
+                }
+                std::cout<<"-----------------"<<std::endl;                
                 int m = send(fd, buffData[fd], 1024, 0);
                 if (m == 0)
                 {
@@ -175,7 +200,7 @@ int HttpServer::Listen()
                 }
                 else
                 {
-                    std::cout << "send data length :" << m << std::endl;
+                    std::cout << "send data finished :" << m << std::endl;
                     EpollOpt(EPOLL_CTL_MOD,fd,EPOLLIN);
                 }
             }
