@@ -6,14 +6,14 @@
 using namespace std;
 int main(){
     ifstream in ;
-    in.open("./test/Gakki.jpg",ios::in);
+    in.open("./public/Gakki.jpg",ios::in);
     in.seekg(0,in.end);
     int length = in.tellg();
     in.seekg(0,in.beg);
     char * buff = new char[length];
     in.read(buff,length);
     ofstream out ;
-    out.open("./test/Gakki_copy.jpg",ios::out|ios::binary);
+    out.open("./public/Gakki_copy.jpg",ios::out|ios::binary);
     out.write(buff,length);
     in.close();
     out.close();

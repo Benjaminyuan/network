@@ -7,6 +7,7 @@
 #include<string>
 #include<vector>
 #include<map>
+#include<string.h>
 using namespace std;
 struct http_parser
 {
@@ -41,24 +42,29 @@ int main(){
     while(buff[i] && i < 2048){
         if(buff[i] =='\n'){
             int size = i-lineStart+1;
-            char temp[size];
+            if(size == 2){
+                break;
+            }
+            char *temp = new char[size];
             memcpy(temp,buff+lineStart,size-1);
+            temp[size-1] = '\0';
             string s = temp;
             if (lineStart == 0){
-                basicInfo = s; 
+                basicInfo = s;
             }else{
                 header.push_back(s);
             }
             lineStart = i+1;
+            delete [] temp;
         }
         i++;
     }
-    cout<<"i:"<< i<< endl;
-    int size = i-lineStart+1;
-    char temp[size];
-    memcpy(temp,buff+lineStart,size-1);
-    string s = temp;
-    header.push_back(s);
+    // cout<<"i:"<< i<< endl;
+    // int size = i-lineStart+1;
+    // char temp[size];
+    // memcpy(temp,buff+lineStart,size-1);
+    // string s = temp;
+    // header.push_back(s);
     cout<<"header line-1:" <<basicInfo<< endl;
     parseRequestBasicContent(basicInfo,parser);
     cout<< "url:"<<parser.url<<" method: "<< parser.method << " protocal: "<< parser.protocal<<endl;

@@ -10,9 +10,12 @@
 #include <iostream>
 #include <vector>
 #include <errno.h>
+#include<stdlib.h>
+#include<sys/types.h>
+#include<fstream>
 int main(int argc, char **argv)
 {
-    char buff[2014] = "my name is Benji", buff2[1024];
+    char buff[2014] = "my name is Benji", buff2[6000];
     int n;
     struct sockaddr_in servaddr;
     int sockfd = socket(AF_INET, SOCK_STREAM, 0);
@@ -34,10 +37,12 @@ int main(int argc, char **argv)
             printf("send error! %s(errno :%d)\n", strerror(errno), errno);
             break;
         }
+        std::ofstream  out;
+        out.open("./test/Gakki_copy.jpg",std::ios::out|std::ios::binary);
         if ((n = recv(sockfd, buff2, sizeof(buff2), 0)) > 0)
         {
             std::cout<<"echoed from server length is:"<<n << std::endl;
-            write(0, buff2, n);
+            out.write(buff2,n);
             std::cout<<std::endl;
         }
     }

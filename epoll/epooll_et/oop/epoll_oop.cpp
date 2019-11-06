@@ -189,7 +189,7 @@ int HttpServer::Listen()
                     std::cout<<"header-key: "<< it->first << " value: "<< it->second << std::endl;
                 }
                 std::cout<<"-----------------"<<std::endl;                
-                int m = send(fd, buffData[fd], 1024, 0);
+                int m = send(fd,parser.body, parser.content_length, 0);
                 if (m == 0)
                 {
                     if (epoll_ctl(epollfd, EPOLL_CTL_DEL, fd, NULL) != -1)

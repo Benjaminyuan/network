@@ -11,6 +11,7 @@
 #include <iostream>
 #include <vector>
 #include <errno.h>
+#include<fstream>
 #include<vector>
 #include<map>
 #include<string>
@@ -22,10 +23,12 @@ class HttpParser
 {
     public:
         const char *buff;
-        char sendData[4048];
+        char * body;
+        int content_length;
         std::string method;
         std::string url;
         std::string protocal;
+        std::string base_dir;
         map<string,string> headers;
         string Get(string key);
         HttpParser(const char* raw_data);
@@ -33,4 +36,5 @@ class HttpParser
     private:
         void parseRequestBasicContent(const string s);
         void parseHeaderContent(vector<string> headers);
+        void readData();
 };
