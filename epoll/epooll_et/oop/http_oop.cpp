@@ -94,17 +94,18 @@ void HttpParser::readData(){
 void HttpParser::setRes(){
     char temp [100];
     //添加请求信息
-    sprintf(temp,"%s %s %s\r\n",protocal,"200","OK");
+    sprintf(temp,"%s %d %s\r\n",protocal.c_str(),200,"OK");
     std::cout<<"长度"<< strlen(temp)<< std::endl;
     res.append(temp);
     // 添加请求头部
     sprintf(temp,"%s: %s\r\n","content-type","image/jpeg");
-    res.append(temp)
-    sprintf(temp,"%s: %s\r\n","content-length",content_length);
+    res.append(temp);
+    sprintf(temp,"%s: %d\r\n","content-length",content_length);
     res.append(temp);
     //添加空行
     res.append("\r\n");
     //添加body
+    std::cout<< "header-length:"<< res.length()<<std::endl;
     res.append(body);
     std::cout<< "res:"<< std::endl;
     std::cout<<res.c_str()<<std::endl;
