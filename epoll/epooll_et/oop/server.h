@@ -25,6 +25,8 @@ class HttpParser
         const char *buff;
         char * body;
         int content_length;
+        char * resp;
+        int resp_length;
         std::string res;
         std::string method;
         std::string url;
@@ -38,5 +40,5 @@ class HttpParser
         void parseRequestBasicContent(const string s);
         void parseHeaderContent(vector<string> headers);
         void readData();
-        void setRes();
+        void setRes(bool exist);
 };

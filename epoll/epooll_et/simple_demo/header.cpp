@@ -6,10 +6,14 @@ int main(){
     int content_length;
     char *body;
     string path = "./test/Gakki.jpg";
+    string wrong_path = "./test/Gaki.jpg";
     std::cout<<"readDat file_path:"<<path<<std::endl;
-    ifstream in ;
+    ifstream in(wrong_path.c_str(),ios::in) ;
+    if(!in){
+        std::cout<<"file not exist"<< std::endl;
+        return 0;
+    }
     ofstream out;
-    in.open(path.c_str(),ios::in);
     in.seekg(0,in.end);
     content_length = in.tellg();
     in.seekg(0,in.beg);
@@ -28,7 +32,8 @@ int main(){
     res_header.append(temp);
     //添加请求头部
     res_header.append("\r\n");
-    std::cout<< "body:"<< body<<std::endl;
+    res_header.append(body);
+    std::cout<< "body"<< body<<std::endl;
     out.open("./test/Gakki_test.jpg",ios::out);
     out.write(body,content_length);
     std::cout<< "--------"<<std::endl;

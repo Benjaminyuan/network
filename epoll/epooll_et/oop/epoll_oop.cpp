@@ -185,11 +185,12 @@ int HttpServer::Listen()
                 std::cout<<"-----------------"<<std::endl;
                 std::cout<< "url:"<<parser.url<<" method: "<< parser.method << " protocal: "<< parser.protocal<<std::endl;
                 std::cout<<"-----------------"<<std::endl;                
+                std::cout<<"-------headers----"<<std::endl;                
                 for(map<string,string>::iterator it = parser.headers.begin();it != parser.headers.end();++it){
-                    std::cout<<"header-key: "<< it->first << " value: "<< it->second << std::endl;
+                    std::cout<<" "<< it->first << " "<< it->second << std::endl;
                 }
-                std::cout<<"-----------------"<<std::endl;
-                int m = send(fd,parser.res.c_str(), parser.res.length(), 0);
+                std::cout<<"-------headers----"<<std::endl;
+                int m = send(fd,parser.resp, parser.resp_length, 0);
                 if (m == 0)
                 {
                     if (epoll_ctl(epollfd, EPOLL_CTL_DEL, fd, NULL) != -1)
@@ -201,7 +202,7 @@ int HttpServer::Listen()
                 else
                 {
                     std::cout << "send data finished :" << m << std::endl;
-                    send(fd,parser.body,parser.content_length,0);
+                    // send(fd,parser.body,parser.content_length,0);
                     EpollOpt(EPOLL_CTL_MOD,fd,EPOLLIN);
                 }
             }
