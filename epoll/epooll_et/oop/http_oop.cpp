@@ -13,8 +13,8 @@ void HttpParser::parseHeader(){
     string basicInfo;
     while(buff[i] && i < 2048){
         if(buff[i] =='\n'){
-            int size = i-lineStart+1;
-            if(size == 2){
+            int size = i-lineStart;
+            if(size == 1){
                 break;
             }
             char *temp = new char[size];

@@ -162,7 +162,7 @@ int HttpServer::Listen()
                         const char * ip = inet_ntoa(sa.sin_addr);
                         int port = int(ntohs(sa.sin_port));
                         std::cout << "\n\n------------------------"<<std::endl;
-                        std::cout << "recv data from client:" << epoll_events[i].data.fd << "\nraw_data:" << ch << std::endl;
+                        std::cout << "recv data from client:" << epoll_events[i].data.fd << "\nraw_data:\n" << ch << std::endl;
                         std::cout << "\n\n------------------------"<<std::endl;
                         std::cout<< "client_ip:"<<ip<<"\nport:"<<port<<std::endl;
                         std::cout << "------------------------\n\n"<<std::endl;
