@@ -5,6 +5,10 @@ HttpParser::HttpParser(int fd)
     clientfd = fd;
     buff = new char[BUFFSIZE];
 }
+HttpParser::HttpParser(){
+    base_dir = "./public";
+    buff = new char[BUFFSIZE];
+}
 int HttpParser::recvData(){
     return recv(clientfd,buff,BUFFSIZE,0);
 }
@@ -102,7 +106,7 @@ void HttpParser::parseHeader()
 
 void HttpParser::readData()
 {
-    string path = base_dir.append(url);
+    string path = base_dir+url;
     std::cout << "readDat file_path:" << path << std::endl;
     ifstream in(path.c_str(), ios::in);
     if (!in)
@@ -119,6 +123,7 @@ void HttpParser::readData()
     std::cout << "read data finish " << std::endl;
     in.close();
     send_body = true;
+    // base_dir = "./public";
 }
 int HttpParser::sendRes()
 {

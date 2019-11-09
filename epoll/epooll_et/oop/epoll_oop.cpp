@@ -136,12 +136,14 @@ int HttpServer::Listen()
                     std::cout << "client fd:" << epoll_events[i].data.fd << "recv data" << std::endl;
                     int fd = epoll_events[i].data.fd;
                     char *ch = buffData[fd];
-                    HttpParser parser;
+                    HttpParser *parser;
                     if(httpParsers.count(fd)> 0){
-                        map<int,string>::iterator it = httpParsers.find(fd);
-                        parser = it->second;
+                        map<int,HttpParser>::iterator it = httpParsers.find(fd);
+                        parser = &(it->second);
+                    }else{
+                        parser = new HttpParser(fd);
                     }
-                    int m = parser.recvData();
+                    int m = parser->recvData();
                     if (m == 0)
                     {
                         if (epoll_ctl(epollfd, EPOLL_CTL_DEL, fd, NULL) != -1)
@@ -174,8 +176,8 @@ int HttpServer::Listen()
                         std::cout << "\n\n------------------------" << std::endl;
                         std::cout << "client_ip:" << ip << "\nport:" << port << std::endl;
                         std::cout << "------------------------\n\n"<< std::endl;
-                        parser.parseHeader();
-                        httpParsers.insert(std::make_pair(fd, parser));
+                        parser->parseHeader();
+                        httpParsers.insert(std::make_pair(fd, *parser));
                         EpollOpt(EPOLL_CTL_MOD, fd, EPOLLOUT);
                     }
                 }
@@ -192,12 +194,12 @@ int HttpServer::Listen()
                 std::cout << "-----------------" << std::endl;
                 std::cout << "url:" << parser.url << " method: " << parser.method << " protocal: " << parser.protocal << std::endl;
                 std::cout << "-----------------" << std::endl;
-                std::cout << "-------headers----" << std::endl;
-                for (map<string, string>::iterator it = parser.headers.begin(); it != parser.headers.end(); ++it)
-                {
-                    std::cout << " " << it->first << " " << it->second << std::endl;
-                }
-                std::cout << "-------headers----" << std::endl;
+                // std::cout << "-------headers----" << std::endl;
+                // for (map<string, string>::iterator it = parser.headers.begin(); it != parser.headers.end(); ++it)
+                // {
+                //     std::cout << " " << it->first << " " << it->second << std::endl;
+                // }
+                // std::cout << "-------headers----" << std::endl;
                 int m = parser.sendRes();
                 if (m == 0)
                 {

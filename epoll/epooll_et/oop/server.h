@@ -34,6 +34,7 @@ class HttpParser
         std::string protocal;
         std::string base_dir;
         map<string,string> headers;
+        HttpParser();
         string Get(string key);
         HttpParser(int fd);
         void parseHeader();
