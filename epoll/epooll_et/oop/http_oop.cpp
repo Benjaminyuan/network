@@ -32,11 +32,6 @@ void HttpParser::parseHeader(){
         i++;
     }
     cout<<"i:"<< i<< endl;
-    // int size = i-lineStart+1;
-    // char temp[size];
-    // memcpy(temp,buff+lineStart,size);
-    // string s = temp;
-    // header.push_back(s);
     cout<<"header line-1:" <<basicInfo<< endl;
     parseRequestBasicContent(basicInfo);
     parseHeaderContent(header);
