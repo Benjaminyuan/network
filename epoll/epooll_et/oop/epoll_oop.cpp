@@ -190,7 +190,8 @@ int HttpServer::Listen()
                     std::cout<<" "<< it->first << " "<< it->second << std::endl;
                 }
                 std::cout<<"-------headers----"<<std::endl;
-                int m = send(fd,parser.resp, parser.resp_length, 0);
+                const char * res = parser.getRes();
+                int m = send(fd,res, parser.resp_length, 0);
                 if (m == 0)
                 {
                     if (epoll_ctl(epollfd, EPOLL_CTL_DEL, fd, NULL) != -1)
@@ -203,7 +204,8 @@ int HttpServer::Listen()
                 {
                     std::cout << "send data finished :" << m << std::endl;
                     // send(fd,parser.body,parser.content_length,0);
-                    EpollOpt(EPOLL_CTL_MOD,fd,EPOLLIN);
+                    parser.finishRequest();
+                    close(fd);
                 }
             }
         }

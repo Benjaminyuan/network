@@ -23,10 +23,10 @@ class HttpParser
 {
     public:
         const char *buff;
-        char * body;
-        int content_length;
-        char * resp;
+        char *body;
+        bool send_body;
         int resp_length;
+        int content_length;
         std::string res;
         std::string method;
         std::string url;
@@ -36,9 +36,10 @@ class HttpParser
         string Get(string key);
         HttpParser(const char* raw_data);
         void parseHeader();
+        void finishRequest();
+        const char* getRes();
     private:
         void parseRequestBasicContent(const string s);
         void parseHeaderContent(vector<string> headers);
         void readData();
-        void setRes(bool exist);
 };

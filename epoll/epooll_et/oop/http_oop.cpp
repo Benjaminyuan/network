@@ -102,22 +102,25 @@ void HttpParser::readData()
     std::cout << "readDat file_path:" << path << std::endl;
     ifstream in(path.c_str(), ios::in);
     if(!in){
-        setRes(false);
-        return;
+        std::cout << "file not exit "<< std::endl;
+        send_body = false;
+        return ;
     }
     in.seekg(0, in.end);
     content_length = in.tellg();
     in.seekg(0, in.beg);
     body = new char[content_length];
     in.read(body, content_length);
+    std::cout<<"read data finish "<<std::endl;
     in.close();
-    setRes(true);
+    send_body = true;
 }
-void HttpParser::setRes(bool exist)
+const char* HttpParser::getRes()
 {
     char temp[100];
-    if (exist)
+    if (send_body)
     {
+        std::cout<<"-------write return data-------"<<std::endl;
         //添加请求信息
         sprintf(temp, "%s %d %s\r\n", protocal.c_str(), 200, "OK");
         std::cout << "长度" << strlen(temp) << std::endl;
@@ -134,19 +137,29 @@ void HttpParser::setRes(bool exist)
         std::cout << "header:" << std::endl;
         std::cout << res.c_str() << std::endl;
         resp_length = res.length()+content_length;
-        resp = new char[resp_length];
+        char resp[resp_length];
+        std::cout<<"---------write return data finish--------"<<std::endl;
         memcpy(resp,res.c_str(),res.length());
-        memccpy(resp+res.length(),body,content_length);
-        return ;
+        memcpy(resp+res.length(),body,content_length);
+        return resp ;
     }
     else
-    {
+    {   
+        std::cout<<"-------write return data-------"<<std::endl;
         sprintf(temp, "%s %d %s\r\n", protocal.c_str(), 404, "Not Found");
         res.append(temp);
         res.append("\r\n");
         res.append("file you want not exist!!");
-        resp = res.c_str();
+        char resp[res.length()];
         resp_length = res.length();
-        return ;
+        memcpy(resp,res.c_str(),res.length());
+        res = "";
+        std::cout<<"---------write return data finish--------"<<std::endl;
+        return resp;
     }
+}
+void HttpParser::finishRequest (){
+    std::cout<<"free data"<<std::endl;
+    content_length =0;
+    resp_length = 0;
 }
