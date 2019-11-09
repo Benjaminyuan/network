@@ -18,15 +18,16 @@
 
 #define DEFAULT_PORT 3000
 #define MAXCONN 1024
+#define BUFFSIZE 2048
 using namespace std;
 class HttpParser
 {
     public:
-        const char *buff;
+        char *buff;
         char *body;
         bool send_body;
-        int resp_length;
         int content_length;
+        int  clientfd;
         std::string res;
         std::string method;
         std::string url;
@@ -34,10 +35,11 @@ class HttpParser
         std::string base_dir;
         map<string,string> headers;
         string Get(string key);
-        HttpParser(const char* raw_data);
+        HttpParser(int fd);
         void parseHeader();
         void finishRequest();
-        const char* getRes();
+        int recvData();
+        int sendRes();
     private:
         void parseRequestBasicContent(const string s);
         void parseHeaderContent(vector<string> headers);

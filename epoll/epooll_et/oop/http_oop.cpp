@@ -1,50 +1,16 @@
 #include "server.h"
-HttpParser::HttpParser(const char *raw_data)
+HttpParser::HttpParser(int fd)
 {
-    buff = raw_data;
     base_dir = "./public";
+    clientfd = fd;
+    buff = new char[BUFFSIZE];
+}
+int HttpParser::recvData(){
+    return recv(clientfd,buff,BUFFSIZE,0);
 }
 string HttpParser::Get(string key)
 {
     return headers[key];
-}
-void HttpParser::parseHeader()
-{
-    vector<string> header;
-    int i = 0;
-    int lineStart = 0;
-    string basicInfo;
-    while (buff[i] && i < 2048)
-    {
-        if (buff[i] == '\n')
-        {
-            int size = i - lineStart;
-            if (size == 1)
-            {
-                break;
-            }
-            char *temp = new char[size];
-            memcpy(temp, buff + lineStart, size - 1);
-            temp[size - 1] = '\0';
-            string s = temp;
-            if (lineStart == 0)
-            {
-                basicInfo = s;
-            }
-            else
-            {
-                header.push_back(s);
-            }
-            lineStart = i + 1;
-            delete[] temp;
-        }
-        i++;
-    }
-    cout << "i:" << i << endl;
-    cout << "header line-1:" << basicInfo << endl;
-    parseRequestBasicContent(basicInfo);
-    parseHeaderContent(header);
-    readData();
 }
 void HttpParser::parseRequestBasicContent(const string s)
 {
@@ -95,32 +61,73 @@ void HttpParser::parseHeaderContent(vector<string> headerList)
     }
     cout << "parse headers success !! total " << headers.size() << " line" << endl;
 }
+void HttpParser::parseHeader()
+{
+    vector<string> header;
+    int i = 0;
+    int lineStart = 0;
+    string basicInfo;
+    while (buff[i] && i < 2048)
+    {
+        if (buff[i] == '\n')
+        {
+            int size = i - lineStart;
+            if (size == 1)
+            {
+                break;
+            }
+            char *temp = new char[size];
+            memcpy(temp, buff + lineStart, size - 1);
+            temp[size - 1] = '\0';
+            string s = temp;
+            if (lineStart == 0)
+            {
+                basicInfo = s;
+            }
+            else
+            {
+                header.push_back(s);
+            }
+            lineStart = i + 1;
+            delete[] temp;
+        }
+        i++;
+    }
+    cout << "i:" << i << endl;
+    cout << "header line-1:" << basicInfo << endl;
+    parseRequestBasicContent(basicInfo);
+    parseHeaderContent(header);
+    readData();
+}
 
 void HttpParser::readData()
 {
     string path = base_dir.append(url);
     std::cout << "readDat file_path:" << path << std::endl;
     ifstream in(path.c_str(), ios::in);
-    if(!in){
-        std::cout << "file not exit "<< std::endl;
+    if (!in)
+    {
+        std::cout << "file not exit " << std::endl;
         send_body = false;
-        return ;
+        return;
     }
     in.seekg(0, in.end);
     content_length = in.tellg();
     in.seekg(0, in.beg);
     body = new char[content_length];
     in.read(body, content_length);
-    std::cout<<"read data finish "<<std::endl;
+    std::cout << "read data finish " << std::endl;
     in.close();
     send_body = true;
 }
-const char* HttpParser::getRes()
+int HttpParser::sendRes()
 {
     char temp[100];
+    char* resp;
+    int resp_length;
     if (send_body)
     {
-        std::cout<<"-------write return data-------"<<std::endl;
+        std::cout << "-------write return data-------" << std::endl;
         //添加请求信息
         sprintf(temp, "%s %d %s\r\n", protocal.c_str(), 200, "OK");
         std::cout << "长度" << strlen(temp) << std::endl;
@@ -136,30 +143,30 @@ const char* HttpParser::getRes()
         std::cout << "header-length:" << res.length() << std::endl;
         std::cout << "header:" << std::endl;
         std::cout << res.c_str() << std::endl;
-        resp_length = res.length()+content_length;
-        char resp[resp_length];
-        std::cout<<"---------write return data finish--------"<<std::endl;
-        memcpy(resp,res.c_str(),res.length());
-        memcpy(resp+res.length(),body,content_length);
-        return resp ;
+        resp_length = res.length() + content_length;
+        resp = new char[resp_length];
+        std::cout << "---------write return data finish--------" << std::endl;
+        memcpy(resp, res.c_str(), res.length());
+        memcpy(resp + res.length(), body, content_length);
     }
     else
-    {   
-        std::cout<<"-------write return data-------"<<std::endl;
+    {
+        std::cout << "-------write return data-------" << std::endl;
         sprintf(temp, "%s %d %s\r\n", protocal.c_str(), 404, "Not Found");
         res.append(temp);
         res.append("\r\n");
         res.append("file you want not exist!!");
-        char resp[res.length()];
+        resp = new char [res.length()];
         resp_length = res.length();
-        memcpy(resp,res.c_str(),res.length());
+        memcpy(resp, res.c_str(), res.length());
         res = "";
-        std::cout<<"---------write return data finish--------"<<std::endl;
-        return resp;
+        std::cout << "---------write return data finish--------" << std::endl;
     }
+    return send(clientfd,resp,resp_length,0);
+
 }
-void HttpParser::finishRequest (){
-    std::cout<<"free data"<<std::endl;
-    content_length =0;
-    resp_length = 0;
+void HttpParser::finishRequest()
+{
+    std::cout << "free data" << std::endl;
+    content_length = 0;
 }
