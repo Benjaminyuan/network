@@ -106,4 +106,7 @@ void HttpParser::setRes(){
     res.append("\r\n");
     //添加body
     res.append(body);
+    std::cout<< "res:"<< std::endl;
+    std::cout<<res.c_str()<<std::endl;
+    std::cout<<"---------"<<std::endl;
 }

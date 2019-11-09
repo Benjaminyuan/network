@@ -188,7 +188,7 @@ int HttpServer::Listen()
                 for(map<string,string>::iterator it = parser.headers.begin();it != parser.headers.end();++it){
                     std::cout<<"header-key: "<< it->first << " value: "<< it->second << std::endl;
                 }
-                std::cout<<"-----------------"<<std::endl;                
+                std::cout<<"-----------------"<<std::endl;
                 int m = send(fd,parser.res.c_str(), parser.res.length(), 0);
                 if (m == 0)
                 {
