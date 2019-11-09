@@ -28,7 +28,7 @@ int main(){
     res_header.append(temp);
     //添加请求头部
     res_header.append("\r\n");
-    res_header.append(body);
+    std::cout<< "body:"<< body<<std::endl;
     out.open("./test/Gakki_test.jpg",ios::out);
     out.write(body,content_length);
     std::cout<< "--------"<<std::endl;

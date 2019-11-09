@@ -201,6 +201,7 @@ int HttpServer::Listen()
                 else
                 {
                     std::cout << "send data finished :" << m << std::endl;
+                    send(fd,parser.body,parser.content_length,0);
                     EpollOpt(EPOLL_CTL_MOD,fd,EPOLLIN);
                 }
             }
