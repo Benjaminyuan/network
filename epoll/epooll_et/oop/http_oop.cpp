@@ -1,8 +1,9 @@
 #include "server.h"
-HttpParser::HttpParser(int fd)
+HttpParser::HttpParser(int& epoll,int fd)
 {
     base_dir = "./public";
     clientfd = fd;
+    epoll_id = &epoll;
     buff = new char[BUFFSIZE];
 }
 HttpParser::HttpParser(){
@@ -123,7 +124,17 @@ void HttpParser::readData()
     std::cout << "read data finish " << std::endl;
     in.close();
     send_body = true;
-    // base_dir = "./public";
+     // EpollOpt(EPOLL_CTL_MOD, fd, EPOLLOUT);
+
+    epoll_event clientfd_event;
+    clientfd_event.data.fd = clientfd;
+    clientfd_event.events = EPOLLOUT;
+    if (epoll_ctl(*epoll_id, EPOLL_CTL_MOD, clientfd, &clientfd_event) == -1)
+    {
+        std::cout << "epoll fail to add events" << std::endl;
+        throw std::logic_error("epoll fail to add events");
+    }
+    std::cout<<"thread-"<< std::this_thread::get_id()<<":"<<"read finish"<< std::endl;
 }
 int HttpParser::sendRes()
 {

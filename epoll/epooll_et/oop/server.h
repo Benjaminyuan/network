@@ -15,7 +15,12 @@
 #include<vector>
 #include<map>
 #include<string>
-
+#include <utility>
+#include <thread>
+#include <chrono>
+#include <functional>
+#include <atomic>
+#include<pthread.h>
 #define DEFAULT_PORT 3000
 #define MAXCONN 1024
 #define BUFFSIZE 2048
@@ -28,6 +33,7 @@ class HttpParser
         bool send_body;
         int content_length;
         int  clientfd;
+        const int *epoll_id;
         std::string res;
         std::string method;
         std::string url;
@@ -36,7 +42,7 @@ class HttpParser
         map<string,string> headers;
         HttpParser();
         string Get(string key);
-        HttpParser(int fd);
+        HttpParser(int& epoll,int fd);
         void parseHeader();
         void finishRequest();
         int recvData();

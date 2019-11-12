@@ -98,6 +98,7 @@ int HttpServer::Listen()
         {
             continue;
         }
+        std::vector<std::thread> threads;
         for (int i = 0; i < n; i++)
         {
             if (epoll_events[i].events & EPOLLIN)
@@ -141,7 +142,7 @@ int HttpServer::Listen()
                         map<int,HttpParser>::iterator it = httpParsers.find(fd);
                         parser = &(it->second);
                     }else{
-                        parser = new HttpParser(fd);
+                        parser = new HttpParser(epollfd,fd);
                     }
                     int m = parser->recvData();
                     if (m == 0)
@@ -176,9 +177,11 @@ int HttpServer::Listen()
                         std::cout << "\n\n------------------------" << std::endl;
                         std::cout << "client_ip:" << ip << "\nport:" << port << std::endl;
                         std::cout << "------------------------\n\n"<< std::endl;
-                        parser->parseHeader();
+                        threads.push_back(thread(&HttpParser::parseHeader,parser));
                         httpParsers.insert(std::make_pair(fd, *parser));
-                        EpollOpt(EPOLL_CTL_MOD, fd, EPOLLOUT);
+                        // parser->parseHeader();
+                        // httpParsers.insert(std::make_pair(fd, *parser));
+                        // EpollOpt(EPOLL_CTL_MOD, fd, EPOLLOUT);
                     }
                 }
             }
@@ -216,6 +219,9 @@ int HttpServer::Listen()
                     close(fd);
                 }
             }
+        }
+        for(auto iter = threads.begin();iter != threads.end();iter++){
+            iter->join();
         }
     }
     close(listenfd);
