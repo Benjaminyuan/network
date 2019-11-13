@@ -139,7 +139,7 @@ void HttpParser::readData()
 int HttpParser::sendRes()
 {
     char temp[100];
-    char* resp;
+    char* resp = NULL;
     int resp_length;
     if (send_body)
     {
@@ -178,8 +178,12 @@ int HttpParser::sendRes()
         res = "";
         std::cout << "---------write return data finish--------" << std::endl;
     }
-    return send(clientfd,resp,resp_length,0);
-
+    int m =  send(clientfd,resp,resp_length,0);
+    if(resp != NULL){
+        delete [] resp;
+        resp = NULL;
+    }
+    return m;
 }
 void HttpParser::finishRequest()
 {
