@@ -55,7 +55,9 @@ int HttpServer::CreateEpoll()
     if (epollfd == -1)
     {
         std::cout << "fail to create epollfd" << std::endl;
+        return -1;
     }
+    return 0;
 }
 int HttpServer::EpollOpt(int opt, int listenfd, int event)
 {
