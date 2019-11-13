@@ -4,6 +4,7 @@ HttpParser::HttpParser(int& epoll,int fd)
     base_dir = "./public";
     clientfd = fd;
     epoll_id = &epoll;
+    body = NULL;
     buff = new char[BUFFSIZE];
 }
 HttpParser::HttpParser(){
@@ -121,9 +122,9 @@ void HttpParser::readData()
     in.seekg(0, in.beg);
     body = new char[content_length];
     in.read(body, content_length);
+    send_body = true;
     std::cout << "read data finish " << std::endl;
     in.close();
-    send_body = true;
      // EpollOpt(EPOLL_CTL_MOD, fd, EPOLLOUT);
 
     epoll_event clientfd_event;
@@ -139,8 +140,6 @@ void HttpParser::readData()
 int HttpParser::sendRes()
 {
     char temp[100];
-    char* resp = NULL;
-    int resp_length;
     if (send_body)
     {
         std::cout << "-------write return data-------" << std::endl;
@@ -159,11 +158,16 @@ int HttpParser::sendRes()
         std::cout << "header-length:" << res.length() << std::endl;
         std::cout << "header:" << std::endl;
         std::cout << res.c_str() << std::endl;
-        resp_length = res.length() + content_length;
-        resp = new char[resp_length];
+        int resp_length = res.length() + content_length;
+        char resp[resp_length];
         std::cout << "---------write return data finish--------" << std::endl;
         memcpy(resp, res.c_str(), res.length());
         memcpy(resp + res.length(), body, content_length);
+        if(body !=NULL ){
+            delete [] body;
+            body = NULL;
+        }
+        return send(clientfd,resp,resp_length,0);
     }
     else
     {
@@ -172,21 +176,19 @@ int HttpParser::sendRes()
         res.append(temp);
         res.append("\r\n");
         res.append("file you want not exist!!");
-        resp = new char [res.length()];
-        resp_length = res.length();
+        char resp[res.length()];
+        int resp_length = res.length();
         memcpy(resp, res.c_str(), res.length());
         res = "";
         std::cout << "---------write return data finish--------" << std::endl;
+        return send(clientfd,resp,resp_length,0);
     }
-    int m =  send(clientfd,resp,resp_length,0);
-    if(resp != NULL){
-        delete [] resp;
-        resp = NULL;
-    }
-    return m;
 }
 void HttpParser::finishRequest()
 {
     std::cout << "free data" << std::endl;
     content_length = 0;
+    if(body != NULL){
+        
+    }
 }
