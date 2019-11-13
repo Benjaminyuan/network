@@ -46,7 +46,7 @@ class HttpParser
         void parseHeader();
         void finishRequest();
         int recvData();
-        int sendRes();
+        void sendRes();
     private:
         void parseRequestBasicContent(const string s);
         void parseHeaderContent(vector<string> headers);

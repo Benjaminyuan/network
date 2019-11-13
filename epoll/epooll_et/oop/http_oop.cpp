@@ -99,7 +99,6 @@ void HttpParser::parseHeader()
         }
         i++;
     }
-    cout << "i:" << i << endl;
     cout << "header line-1:" << basicInfo << endl;
     parseRequestBasicContent(basicInfo);
     parseHeaderContent(header);
@@ -129,7 +128,8 @@ void HttpParser::readData()
 
     epoll_event clientfd_event;
     clientfd_event.data.fd = clientfd;
-    clientfd_event.events = EPOLLOUT;
+    clientfd_event.events = EPOLLOUT  ;
+    //| EPOLLONESHOT;
     if (epoll_ctl(*epoll_id, EPOLL_CTL_MOD, clientfd, &clientfd_event) == -1)
     {
         std::cout << "epoll fail to add events" << std::endl;
@@ -137,11 +137,12 @@ void HttpParser::readData()
     }
     std::cout<<"thread-"<< std::this_thread::get_id()<<":"<<"read finish"<< std::endl;
 }
-int HttpParser::sendRes()
+void HttpParser::sendRes()
 {
-    char temp[100];
+    int sum;
     if (send_body)
     {
+        char temp[100];
         std::cout << "-------write return data-------" << std::endl;
         //添加请求信息
         sprintf(temp, "%s %d %s\r\n", protocal.c_str(), 200, "OK");
@@ -164,18 +165,33 @@ int HttpParser::sendRes()
         if(body != NULL ){
             delete [] body;
             body = NULL;
-        }
-        return m+n;
+        } 
+        int sum = m +n;
     }
     else
-    {
+    {   
+        char temp[100];
         std::cout << "-------write return data-------" << std::endl;
         sprintf(temp, "%s %d %s\r\n", protocal.c_str(), 404, "Not Found");
         res.append(temp);
         res.append("\r\n");
         res.append("file you want not exist!!");
         std::cout << "---------write return data finish--------" << std::endl;
-        return send(clientfd,res.c_str(),res.length(),0);
+        sum = send(clientfd,res.c_str(),res.length(),0);
+    }
+    if (sum)
+        {
+            if (epoll_ctl(*epoll_id, EPOLL_CTL_DEL, clientfd, NULL) != -1)
+            {
+                std::cout << "client disconnected,clientfd:" << clientfd << std::endl;
+            }
+            close(clientfd);
+        }
+        else
+        {
+            std::cout << "send data finished :" << sum << std::endl;
+            // send(fd,parser.body,parser.content_length,0);
+            close(clientfd);
     }
 }
 void HttpParser::finishRequest()

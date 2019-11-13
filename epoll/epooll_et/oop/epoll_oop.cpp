@@ -203,21 +203,22 @@ int HttpServer::Listen()
                 //     std::cout << " " << it->first << " " << it->second << std::endl;
                 // }
                 // std::cout << "-------headers----" << std::endl;
-                int m = parser.sendRes();
-                if (m == 0)
-                {
-                    if (epoll_ctl(epollfd, EPOLL_CTL_DEL, fd, NULL) != -1)
-                    {
-                        std::cout << "client disconnected,clientfd:" << epoll_events[i].data.fd << std::endl;
-                    }
-                    close(epoll_events[i].data.fd);
-                }
-                else
-                {
-                    std::cout << "send data finished :" << m << std::endl;
-                    // send(fd,parser.body,parser.content_length,0);
-                    close(fd);
-                }
+                threads.push_back(std::thread(&HttpParser::sendRes,&parser));
+                // int m = parser.sendRes();
+                // if (m == 0)
+                // {
+                //     if (epoll_ctl(epollfd, EPOLL_CTL_DEL, fd, NULL) != -1)
+                //     {
+                //         std::cout << "client disconnected,clientfd:" << epoll_events[i].data.fd << std::endl;
+                //     }
+                //     close(epoll_events[i].data.fd);
+                // }
+                // else
+                // {
+                //     std::cout << "send data finished :" << m << std::endl;
+                //     // send(fd,parser.body,parser.content_length,0);
+                //     close(fd);
+                // }
             }
         }
         for(auto iter = threads.begin();iter != threads.end();iter++){
