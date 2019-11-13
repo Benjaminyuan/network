@@ -143,6 +143,7 @@ void HttpParser::sendRes()
     if (send_body)
     {
         char temp[100];
+        std::cout<<"thread-"<< std::this_thread::get_id()<<":"<< std::endl;
         std::cout << "-------write return data-------" << std::endl;
         //添加请求信息
         sprintf(temp, "%s %d %s\r\n", protocal.c_str(), 200, "OK");
