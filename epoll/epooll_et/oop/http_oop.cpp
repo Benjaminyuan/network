@@ -158,16 +158,14 @@ int HttpParser::sendRes()
         std::cout << "header-length:" << res.length() << std::endl;
         std::cout << "header:" << std::endl;
         std::cout << res.c_str() << std::endl;
-        int resp_length = res.length() + content_length;
-        char resp[resp_length];
         std::cout << "---------write return data finish--------" << std::endl;
-        memcpy(resp, res.c_str(), res.length());
-        memcpy(resp + res.length(), body, content_length);
-        if(body !=NULL ){
+        int m = send(clientfd,res.c_str(),res.length(),0);
+        int n = send(clientfd,body,content_length,0);
+        if(body != NULL ){
             delete [] body;
             body = NULL;
         }
-        return send(clientfd,resp,resp_length,0);
+        return m+n;
     }
     else
     {
@@ -176,19 +174,12 @@ int HttpParser::sendRes()
         res.append(temp);
         res.append("\r\n");
         res.append("file you want not exist!!");
-        char resp[res.length()];
-        int resp_length = res.length();
-        memcpy(resp, res.c_str(), res.length());
-        res = "";
         std::cout << "---------write return data finish--------" << std::endl;
-        return send(clientfd,resp,resp_length,0);
+        return send(clientfd,res.c_str(),res.length(),0);
     }
 }
 void HttpParser::finishRequest()
 {
     std::cout << "free data" << std::endl;
     content_length = 0;
-    if(body != NULL){
-        
-    }
 }
