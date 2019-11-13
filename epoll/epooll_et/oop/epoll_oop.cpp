@@ -193,9 +193,6 @@ int HttpServer::Listen()
                     std::cout << "fail to get parser" << std::endl;
                 }
                 HttpParser parser = it->second;
-                std::cout << "-----------------" << std::endl;
-                std::cout << "url:" << parser.url << " method: " << parser.method << " protocal: " << parser.protocal << std::endl;
-                std::cout << "-----------------" << std::endl;
                 threads.push_back(std::thread(&HttpParser::sendRes,&parser));
             }
         }

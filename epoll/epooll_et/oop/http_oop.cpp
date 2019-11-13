@@ -140,6 +140,9 @@ void HttpParser::readData()
 void HttpParser::sendRes()
 {
     int sum;
+    if(url.length() == 0){
+        return;
+    }
     if (send_body)
     {
         char temp[100];
