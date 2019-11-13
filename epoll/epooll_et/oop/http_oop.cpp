@@ -143,6 +143,9 @@ void HttpParser::sendRes()
     if (send_body)
     {
         char temp[100];
+        std::cout << "-----------------" << std::endl;
+        std::cout << "url:" << url << " method: " << method << " protocal: " << protocal << std::endl;
+        std::cout << "-----------------" << std::endl;
         std::cout<<"thread-"<< std::this_thread::get_id()<<":"<< std::endl;
         std::cout << "-------write return data-------" << std::endl;
         //添加请求信息
