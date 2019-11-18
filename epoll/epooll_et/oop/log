@@ -1,0 +1,169 @@
+init thread_pool, size: 4
+work thread: 140021269427968 start
+task is empty,thread: 140021269427968sleep
+work thread: 140021277820672 start
+task is empty,thread: 140021277820672sleep
+work thread: 140021286213376 start
+task is empty,thread: 140021286213376sleep
+work thread: 140021294606080 start
+task is empty,thread: 140021294606080sleep
+new client accept,listenfd: 5
+new client accept,listenfd: 6
+------------------------
+clientfd: 5 EPOLLIN
+client_ip:115.156.140.133
+port:51206
+------------------------
+
+task queue size: 0
+task queue size: 1
+task is coming,thread: 140021269427968wake up
+task queue size: 1
+task queue size: 0
+header line-1:GET /image/Gakki.jpg HTTP/1.1
+parse headers success !! total 8 line
+readDat file_path:./public/image/Gakki.jpg
+read data finish content_length48963
+thread-140021269427968:read finish
+task is empty,thread: 140021269427968sleep
+------------------------
+clientfd: 5 EPOLLOUT
+task queue size: 0
+task queue size: 1
+task is coming,thread: 140021277820672wake up
+task queue size: 1
+task queue size: 0
+-----------------
+url:/image/Gakki.jpg method: GET protocal: HTTP/1.1
+thread-140021277820672:
+-------write return data-------
+长度17
+header-length:68
+header:
+HTTP/1.1 200 OK
+content-type: image/jpeg
+content-length: 48963
+
+
+---------write return data with body finish--------
+send data to :5, finished : 49031
+task is empty,thread: 140021277820672sleep
+------------------------
+clientfd: 6 EPOLLIN
+client_ip:115.156.140.133
+port:21884
+------------------------
+
+task queue size: 0
+task queue size: 1
+task is coming,thread: 140021286213376wake up
+task queue size: 1
+task queue size: 0
+header line-1:GET /favicon.ico HTTP/1.1
+parse headers success !! total 9 line
+readDat file_path:./public/favicon.ico
+read data finish content_length3134
+thread-140021286213376:read finish
+task is empty,thread: 140021286213376sleep
+------------------------
+clientfd: 6 EPOLLOUT
+task queue size: 0
+task queue size: 1
+task is coming,thread: 140021294606080wake up
+task queue size: 1
+task queue size: 0
+-----------------
+url:/favicon.ico method: GET protocal: HTTP/1.1
+thread-140021294606080:
+-------write return data-------
+长度17
+header-length:67
+header:
+HTTP/1.1 200 OK
+content-type: image/jpeg
+content-length: 3134
+
+
+---------write return data with body finish--------
+send data to :6, finished : 3201
+task is empty,thread: 140021294606080sleep
+new client accept,listenfd: 5
+------------------------
+clientfd: 5 EPOLLIN
+client_ip:115.156.140.133
+port:61415
+------------------------
+
+task queue size: 0
+task queue size: 1
+task is coming,thread: 140021269427968wake up
+task queue size: 1
+task queue size: 0
+header line-1:GET /image/Gakki.jpg HTTP/1.1
+parse headers success !! total 8 line
+readDat file_path:./public/image/Gakki.jpg
+read data finish content_length48963
+thread-140021269427968:read finish
+task is empty,thread: 140021269427968sleep
+new client accept,listenfd: 6
+------------------------
+clientfd: 5 EPOLLOUT
+task queue size: 0
+task queue size: 1
+task is coming,thread: 140021277820672wake up
+task queue size: 1
+task queue size: 0
+-----------------
+url:/image/Gakki.jpg method: GET protocal: HTTP/1.1
+thread-140021277820672:
+-------write return data-------
+长度17
+header-length:68
+header:
+HTTP/1.1 200 OK
+content-type: image/jpeg
+content-length: 48963
+
+
+---------write return data with body finish--------
+send data to :5, finished : 49031
+task is empty,thread: 140021277820672sleep
+------------------------
+clientfd: 6 EPOLLIN
+client_ip:115.156.140.133
+port:2338
+------------------------
+
+task queue size: 0
+task queue size: 1
+task is coming,thread: 140021286213376wake up
+task queue size: 1
+task queue size: 0
+header line-1:GET /favicon.ico HTTP/1.1
+parse headers success !! total 9 line
+readDat file_path:./public/favicon.ico
+read data finish content_length3134
+thread-140021286213376:read finish
+task is empty,thread: 140021286213376sleep
+------------------------
+clientfd: 6 EPOLLOUT
+task queue size: 0
+task queue size: 1
+task is coming,thread: 140021294606080wake up
+task queue size: 1
+task queue size: 0
+-----------------
+url:/favicon.ico method: GET protocal: HTTP/1.1
+thread-140021294606080:
+-------write return data-------
+长度17
+header-length:67
+header:
+HTTP/1.1 200 OK
+content-type: image/jpeg
+content-length: 3134
+
+
+---------write return data with body finish--------
+send data to :6, finished : 3201
+task is empty,thread: 140021294606080sleep

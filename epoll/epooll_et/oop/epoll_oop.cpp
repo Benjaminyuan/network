@@ -3,8 +3,7 @@
 class HttpServer
 {
 public:
-    HttpServer();
-    HttpServer(int port);
+    HttpServer(int num,int port);
     int EpollOpt(int opt, int listenfd, int event);
     int CreateEpoll();
     int Listen();
@@ -12,16 +11,18 @@ public:
 private:
     int epollfd;
     int listenfd;
+    int thread_pool_num;
     std::map<int, HttpParser*> httpParsers;
     char buffData[2024][2024];
     struct sockaddr_in bind_addr;
     epoll_event epoll_events[2048];
 };
-HttpServer::HttpServer() : HttpServer(DEFAULT_PORT)
+// HttpServer::HttpServer() : HttpServer(DEFAULT_PORT)
+// {
+// }
+HttpServer::HttpServer(int num,int port)
 {
-}
-HttpServer::HttpServer(int port)
-{
+    thread_pool_num = num;
     listenfd = socket(AF_INET, SOCK_STREAM, 0);
     if (listenfd == -1)
     {
@@ -86,6 +87,9 @@ int HttpServer::Listen()
         close(listenfd);
         return -1;
     }
+    std::cout<<"init thread_pool, size: "<< thread_pool_num<< std::endl;
+    ThreadPool thread_pool(thread_pool_num);
+    thread_pool.start();
     while (true)
     {
         int n = epoll_wait(epollfd, epoll_events, 2048, 100);
@@ -101,7 +105,7 @@ int HttpServer::Listen()
         {
             continue;
         }
-        std::vector<std::thread> threads;
+        // std::vector<std::thread> threads;
         for (int i = 0; i < n; i++)
         {
             if (epoll_events[i].events & EPOLLIN)
@@ -123,7 +127,7 @@ int HttpServer::Listen()
                         }
                         else
                         {
-                            if (EpollOpt(EPOLL_CTL_ADD, clientfd, EPOLLIN) == 0)
+                            if (EpollOpt(EPOLL_CTL_ADD, clientfd, EPOLLIN | EPOLLET) == 0)
                             {
                                 std::cout << "new client accept,listenfd: " << clientfd << std::endl;
                             }
@@ -179,7 +183,8 @@ int HttpServer::Listen()
                     {
                     
                         // std::cout << "\n\n----------
-                        threads.push_back(thread(&HttpParser::parseHeader,parser));
+                        thread_pool.appendTask(std::bind(&HttpParser::parseHeader,parser));
+                        // threads.push_back(thread(&HttpParser::parseHeader,parser));
                         httpParsers.insert(std::make_pair(fd, parser));
                     }
                 }
@@ -195,19 +200,25 @@ int HttpServer::Listen()
                     std::cout << "fail to get parser" << std::endl;
                 }
                 HttpParser* parser = it->second;
-                threads.push_back(std::thread(&HttpParser::sendRes,parser));
+                thread_pool.appendTask(std::bind(&HttpParser::sendRes,parser));
+                // threads.push_back(std::thread(&HttpParser::sendRes,parser));
             }
         }
-        for(auto iter = threads.begin();iter != threads.end();iter++){
-            iter->join();
-        }
+        // for(auto iter = threads.begin();iter != threads.end();iter++){
+        //     iter->join();
+        // }
     }
+    thread_pool.stop();
     close(listenfd);
     return 0;
 }
-int main()
+int main(int argsc,char* argv[])
 {
-    HttpServer server;
+    if(argsc != 2){
+        std::cout<<"invalid params"<< std::endl;
+    }
+    int thread_pool_num = std::atoi(argv[1]);
+    HttpServer server(thread_pool_num,DEFAULT_PORT);
     server.CreateEpoll();
     server.Listen();
 }

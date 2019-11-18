@@ -46,7 +46,9 @@ class ThreadPool{
         void appendTask(const Task& task){
             if(is_running){
                 std::unique_lock<std::mutex> lk(mtx);
+                std::cout<<"task queue size: " <<tasks.size()<<std::endl;
                 tasks.push(task);
+                std::cout<<"task queue size: " <<tasks.size()<<std::endl;
                 cond.notify_one();
             }
         }
@@ -66,9 +68,13 @@ class ThreadPool{
                     std::unique_lock<std::mutex> lk(mtx);
                     if(!tasks.empty()){
                         task = tasks.front();
+                        std::cout<<"task queue size: " <<tasks.size()<<std::endl;
                         tasks.pop();
+                        std::cout<<"task queue size: " <<tasks.size()<<std::endl;
                     }else if (is_running && tasks.empty()){
+                        std::cout<<"task is empty,thread: "<< std::this_thread::get_id() << "sleep"<< std::endl;
                         cond.wait(lk);
+                        std::cout<<"task is coming,thread: "<< std::this_thread::get_id() << "wake up"<< std::endl;
                     }
                 }
                 if(task){

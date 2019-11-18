@@ -128,7 +128,7 @@ void HttpParser::readData()
 
     epoll_event clientfd_event;
     clientfd_event.data.fd = clientfd;
-    clientfd_event.events = EPOLLOUT  ;
+    clientfd_event.events = EPOLLOUT | EPOLLET ;
     //| EPOLLONESHOT;
     if (epoll_ctl(*epoll_id, EPOLL_CTL_MOD, clientfd, &clientfd_event) == -1)
     {
