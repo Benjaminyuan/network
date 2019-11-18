@@ -1,9 +1,11 @@
 #include <sys/epoll.h>
 #include <stdio.h>
 #include <unistd.h>
-#include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
+#include<dirent.h>
 #include <sys/socket.h>
+#include<sys/stat.h>
 #include <arpa/inet.h>
 #include <unistd.h>
 #include <fcntl.h>
@@ -21,6 +23,7 @@
 #include <functional>
 #include <atomic>
 #include<pthread.h>
+#include<unordered_map>
 #define DEFAULT_PORT 3000
 #define MAXCONN 1024
 #define BUFFSIZE 2048
@@ -53,5 +56,6 @@ class HttpParser
         void parseHeaderContent(vector<string> headers);
         void readData();
         void printHeaders();
+        void tryGetContentType();
 };
 

@@ -72,16 +72,16 @@ class ThreadPool{
                         tasks.pop();
                         std::cout<<"task queue size: " <<tasks.size()<<std::endl;
                     }else if (is_running && tasks.empty()){
-                        std::cout<<"task is empty,thread: "<< std::this_thread::get_id() << "sleep"<< std::endl;
+                        std::cout<<"task is empty,thread: "<< std::this_thread::get_id() << " sleep"<< std::endl;
                         cond.wait(lk);
-                        std::cout<<"task is coming,thread: "<< std::this_thread::get_id() << "wake up"<< std::endl;
+                        std::cout<<"task is coming,thread: "<< std::this_thread::get_id() << " wake up"<< std::endl;
                     }
                 }
                 if(task){
                     task();
                 }
             }
-            std::cout<<"work thread: " << std::this_thread::get_id() << "end "<< std::endl;
+            std::cout<<"work thread: " << std::this_thread::get_id() << " end "<< std::endl;
         }
 
 };

@@ -1,63 +1,147 @@
 init thread_pool, size: 4
-work thread: 140446910785280 start
-task is empty,thread: 140446910785280sleep
-work thread: 140446919177984 start
-task is empty,thread: 140446919177984sleep
-work thread: 140446927570688 start
-task is empty,thread: 140446927570688sleep
-work thread: 140446935963392 start
-task is empty,thread: 140446935963392sleep
+work thread: 140409657829120 start
+task is empty,thread: 140409657829120sleep
+work thread: 140409666221824 start
+task is empty,thread: 140409666221824sleep
+work thread: 140409674614528 start
+task is empty,thread: 140409674614528sleep
+work thread: 140409683007232 start
+task is empty,thread: 140409683007232sleep
 new client accept,listenfd: 5
-new client accept,listenfd: 6
 ------------------------
 clientfd: 5 EPOLLIN
 client_ip:115.156.140.133
-port:59167
+port:52546
 ------------------------
 
 task queue size: 0
 task queue size: 1
-task is coming,thread: 140446910785280wake up
+new client accept,listenfd: 6
+task is coming,thread: 140409657829120wake up
 task queue size: 1
 task queue size: 0
 header line-1:GET /image/Gakki.jpg HTTP/1.1
 parse headers success !! total 7 line
 readDat file_path:./public/image/Gakki.jpg
+
+get content-type from url,index: 
+12
+
+content-typejpg
+
 read data finish content_length48963
-thread-140446910785280:read finish
-task is empty,thread: 140446910785280sleep
+thread-140409657829120:read finish
+task is empty,thread: 140409657829120sleep
 ------------------------
 clientfd: 5 EPOLLOUT
 task queue size: 0
 task queue size: 1
-task is coming,thread: 140446919177984wake up
+task is coming,thread: 140409666221824wake up
 task queue size: 1
 task queue size: 0
 -----------------
 url:/image/Gakki.jpg method: GET protocal: HTTP/1.1
-thread-140446919177984:
+thread-140409666221824:
 -------write return data-------
 长度17
-header-length:58
+header-length:68
 header:
 HTTP/1.1 200 OK
-content-type: 
+content-type: image/jpeg
 content-length: 48963
 
 
 ---------write return data with body finish--------
-send data to :5, finished : 49021
-task is empty,thread: 140446919177984sleep
+send data to :5, finished : 49031
+task is empty,thread: 140409666221824sleep
 ------------------------
 clientfd: 6 EPOLLIN
 client_ip:115.156.140.133
-port:49466
+port:54396
 ------------------------
 
 task queue size: 0
 task queue size: 1
-task is coming,thread: 140446927570688wake up
+task is coming,thread: 140409674614528wake up
 task queue size: 1
 task queue size: 0
-client disconnected,clientfd:6
-task is empty,thread: 140446927570688sleep
+header line-1:GET /image/Gakki.jpg HTTP/1.1
+parse headers success !! total 9 line
+readDat file_path:./public/image/Gakki.jpg
+
+get content-type from url,index: 
+12
+
+content-typejpg
+
+read data finish content_length48963
+thread-140409674614528:read finish
+task is empty,thread: 140409674614528sleep
+------------------------
+clientfd: 6 EPOLLOUT
+task queue size: 0
+task queue size: 1
+task is coming,thread: 140409683007232wake up
+task queue size: 1
+task queue size: 0
+-----------------
+url:/image/Gakki.jpg method: GET protocal: HTTP/1.1
+thread-140409683007232:
+-------write return data-------
+长度17
+header-length:68
+header:
+HTTP/1.1 200 OK
+content-type: image/jpeg
+content-length: 48963
+
+
+---------write return data with body finish--------
+send data to :6, finished : 49031
+task is empty,thread: 140409683007232sleep
+new client accept,listenfd: 5
+------------------------
+clientfd: 5 EPOLLIN
+client_ip:115.156.140.133
+port:20195
+------------------------
+
+task queue size: 0
+task queue size: 1
+task is coming,thread: 140409657829120wake up
+task queue size: 1
+task queue size: 0
+header line-1:GET /favicon.ico HTTP/1.1
+parse headers success !! total 11 line
+readDat file_path:./public/favicon.ico
+
+get content-type from url,index: 
+8
+
+content-typeico
+
+read data finish content_length3134
+thread-140409657829120:read finish
+task is empty,thread: 140409657829120sleep
+------------------------
+clientfd: 5 EPOLLOUT
+task queue size: 0
+task queue size: 1
+task is coming,thread: 140409666221824wake up
+task queue size: 1
+task queue size: 0
+-----------------
+url:/favicon.ico method: GET protocal: HTTP/1.1
+thread-140409666221824:
+-------write return data-------
+长度17
+header-length:57
+header:
+HTTP/1.1 200 OK
+content-type: 
+content-length: 3134
+
+
+---------write return data with body finish--------
+send data to :5, finished : 3191
+task is empty,thread: 140409666221824sleep

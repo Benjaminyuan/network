@@ -1,4 +1,25 @@
 #include "server.h"
+
+std::unordered_map<std::string,std::string> CONTENT = {
+    {"jpg","image/jpeg"},
+    {"jpeg","image/jpeg"},
+    {"jfif","image/jpeg"},
+    {"png","image/png"},
+    {"webp","image/webp"},
+    {"css","text/css"},
+    {"html","text/html"},
+    {"htm","text/html"},
+    {"txt","text/plain"},
+    {"ico","image/jpeg"},
+    {"json","application/json"},
+    {"js","application/javascript"},
+    {"pdf","application/pdf"},
+    {"zip","application/zip"},
+    {"gzip","application/gzip"},
+    {"doc","application/msword"},
+    {"exe","application/x-msdownload"},
+    {"ppt","application/vnd.ms-powerpoint"},
+};
 HttpParser::HttpParser(int& epoll,int fd)
 {
     base_dir = "./public";
@@ -125,14 +146,29 @@ void HttpParser::parseHeader()
     cout << "header line-1:" << basicInfo << endl;
     parseRequestBasicContent(basicInfo);
     parseHeaderContent(header);
+    // printHeaders();
     readData();
+}
+void HttpParser::tryGetContentType(){
+    // 不是 / 开头的是非法url,通过前面的文件判断可以排除了
+    if(headers.count("content-type") != 0){
+        return;
+    }
+    for(int i = url.length()-1;i>=1;i--){
+        if(url[i] == '.'){
+            std::cout<<"\nget content-type from url,index: \n"<<i<<std::endl;
+            headers["content-type"] = url.substr(i+1,url.length()-i-1);
+            std::cout<<"\ncontent-type: "<< headers["content-type"]<<"\n"<<std::endl;
+            return;
+        }
+    }   
 }
 
 void HttpParser::printHeaders(){
     std::cout<<"-------- header content----------"<<std::endl;
     auto iter = headers.begin();
     while(iter != headers.end()){
-        std::cout<<"key: "<< iter->first << "value:"<<iter->second<<std::endl;
+        std::cout<<"key: "<< iter->first << "  value:"<<iter->second<<std::endl;
         iter++;
     }
     std::cout<<"--------header content----------"<<std::endl;
@@ -142,11 +178,16 @@ void HttpParser::readData()
     string path = base_dir+url;
     std::cout << "readDat file_path:" << path << std::endl;
     ifstream in(path.c_str(), ios::in);
-    if (!in)
+    struct stat s_buf;
+    stat(path.c_str(),&s_buf);
+    //文件不存在或者是文件夹
+    if (!in || S_ISDIR(s_buf.st_mode))
     {
         std::cout << "file not exit " << std::endl;
         send_body = false;
     }else{
+
+        tryGetContentType();
         in.seekg(0, in.end);
         content_length = in.tellg();
         in.seekg(0, in.beg);
@@ -185,7 +226,7 @@ void HttpParser::sendRes()
         std::cout << "长度" << strlen(temp) << std::endl;
         res.append(temp);
         // 添加请求头部
-        sprintf(temp, "%s: %s\r\n", "content-type", Get("content-type").c_str());
+        sprintf(temp, "%s: %s\r\n", "content-type", CONTENT[headers["content-type"]].c_str());
         res.append(temp);
         sprintf(temp, "%s: %d\r\n", "content-length", content_length);
         res.append(temp);
@@ -228,9 +269,15 @@ void HttpParser::sendRes()
             // send(fd,parser.body,parser.content_length,0);
             close(clientfd);
     }
+    finishRequest();
 }
 void HttpParser::finishRequest()
 {
     std::cout << "free data" << std::endl;
+    headers.erase(headers.begin(),headers.end());
+    method = "";
+    url = "";
+    protocal = "";
     content_length = 0;
+    send_body = false;
 }
