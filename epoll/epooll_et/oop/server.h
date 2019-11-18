@@ -24,6 +24,8 @@
 #include <atomic>
 #include<pthread.h>
 #include<unordered_map>
+#include<algorithm>
+#include<cctype>
 #define DEFAULT_PORT 3000
 #define MAXCONN 1024
 #define BUFFSIZE 2048

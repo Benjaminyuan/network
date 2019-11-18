@@ -157,7 +157,11 @@ void HttpParser::tryGetContentType(){
     for(int i = url.length()-1;i>=1;i--){
         if(url[i] == '.'){
             std::cout<<"\nget content-type from url,index: \n"<<i<<std::endl;
-            headers["content-type"] = url.substr(i+1,url.length()-i-1);
+            std::string s = url.substr(i+1,url.length()-i-1);
+            std::for_each(s.begin(),s.end(),[](char &c){
+                    c = ::tolower(static_cast<unsigned char>(c));
+                });
+            headers["content-type"] = s;
             std::cout<<"\ncontent-type: "<< headers["content-type"]<<"\n"<<std::endl;
             return;
         }
