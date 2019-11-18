@@ -114,16 +114,16 @@ void HttpParser::readData()
     {
         std::cout << "file not exit " << std::endl;
         send_body = false;
-        return;
+    }else{
+        in.seekg(0, in.end);
+        content_length = in.tellg();
+        in.seekg(0, in.beg);
+        body = new char[content_length];
+        in.read(body, content_length);
+        send_body = true;
+        std::cout << "read data finish " << "content_length"<<content_length<<std::endl;
+        in.close();
     }
-    in.seekg(0, in.end);
-    content_length = in.tellg();
-    in.seekg(0, in.beg);
-    body = new char[content_length];
-    in.read(body, content_length);
-    send_body = true;
-    std::cout << "read data finish " << std::endl;
-    in.close();
      // EpollOpt(EPOLL_CTL_MOD, fd, EPOLLOUT);
 
     epoll_event clientfd_event;
@@ -139,18 +139,15 @@ void HttpParser::readData()
 }
 void HttpParser::sendRes()
 {
-    int sum;
-    if(url.length() == 0){
-        return;
-    }
+    int sum=0;
+    char temp[100];
+    std::string res = "";
+    std::cout << "-----------------" << std::endl;
+    std::cout << "url:" << url << " method: " << method << " protocal: " << protocal << std::endl;
+    std::cout<<"thread-"<< std::this_thread::get_id()<<":"<< std::endl;
+    std::cout << "-------write return data-------" << std::endl;
     if (send_body)
     {
-        char temp[100];
-        std::cout << "-----------------" << std::endl;
-        std::cout << "url:" << url << " method: " << method << " protocal: " << protocal << std::endl;
-        std::cout << "-----------------" << std::endl;
-        std::cout<<"thread-"<< std::this_thread::get_id()<<":"<< std::endl;
-        std::cout << "-------write return data-------" << std::endl;
         //添加请求信息
         sprintf(temp, "%s %d %s\r\n", protocal.c_str(), 200, "OK");
         std::cout << "长度" << strlen(temp) << std::endl;
@@ -166,18 +163,17 @@ void HttpParser::sendRes()
         std::cout << "header-length:" << res.length() << std::endl;
         std::cout << "header:" << std::endl;
         std::cout << res.c_str() << std::endl;
-        std::cout << "---------write return data finish--------" << std::endl;
+        std::cout << "---------write return data with body finish--------" << std::endl;
         int m = send(clientfd,res.c_str(),res.length(),0);
         int n = send(clientfd,body,content_length,0);
         if(body != NULL ){
             delete [] body;
             body = NULL;
         } 
-        int sum = m +n;
+        sum = m +n;
     }
     else
     {   
-        char temp[100];
         std::cout << "-------write return data-------" << std::endl;
         sprintf(temp, "%s %d %s\r\n", protocal.c_str(), 404, "Not Found");
         res.append(temp);
@@ -186,17 +182,17 @@ void HttpParser::sendRes()
         std::cout << "---------write return data finish--------" << std::endl;
         sum = send(clientfd,res.c_str(),res.length(),0);
     }
-    if (sum)
-        {
+    if (sum == 0)
+    {
             if (epoll_ctl(*epoll_id, EPOLL_CTL_DEL, clientfd, NULL) != -1)
             {
                 std::cout << "client disconnected,clientfd:" << clientfd << std::endl;
             }
             close(clientfd);
-        }
-        else
-        {
-            std::cout << "send data finished :" << sum << std::endl;
+    }
+    else
+    {
+            std::cout << "send data to :"<<clientfd<<", finished : " << sum << std::endl;
             // send(fd,parser.body,parser.content_length,0);
             close(clientfd);
     }

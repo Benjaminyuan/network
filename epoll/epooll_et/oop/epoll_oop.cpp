@@ -11,7 +11,7 @@ public:
 private:
     int epollfd;
     int listenfd;
-    std::map<int, HttpParser> httpParsers;
+    std::map<int, HttpParser*> httpParsers;
     char buffData[2024][2024];
     struct sockaddr_in bind_addr;
     epoll_event epoll_events[2048];
@@ -136,13 +136,21 @@ int HttpServer::Listen()
                 }
                 else
                 {
-                    std::cout << "client fd:" << epoll_events[i].data.fd << "recv data" << std::endl;
                     int fd = epoll_events[i].data.fd;
+                    struct sockaddr_in sa;
+                    socklen_t len = sizeof(sa);
+                    getpeername(fd, (struct sockaddr *)&sa, &len);
+                    const char *ip = inet_ntoa(sa.sin_addr);
+                    int port = int(ntohs(sa.sin_port));
+                    std::cout << "------------------------" << std::endl;
+                    std::cout<<"clientfd: "<<fd<<" EPOLLIN"<<std::endl;
+                    std::cout << "client_ip:" << ip << "\nport:" << port << std::endl;
+                    std::cout << "------------------------\n"<< std::endl;
                     char *ch = buffData[fd];
                     HttpParser *parser;
                     if(httpParsers.count(fd)> 0){
-                        map<int,HttpParser>::iterator it = httpParsers.find(fd);
-                        parser = &(it->second);
+                        map<int,HttpParser*>::iterator it = httpParsers.find(fd);
+                        parser = (it->second);
                     }else{
                         parser = new HttpParser(epollfd,fd);
                     }
@@ -168,32 +176,25 @@ int HttpServer::Listen()
                     }
                     else
                     {
-                        struct sockaddr_in sa;
-                        socklen_t len = sizeof(sa);
-                        getpeername(fd, (struct sockaddr *)&sa, &len);
-                        const char *ip = inet_ntoa(sa.sin_addr);
-                        int port = int(ntohs(sa.sin_port));
-                        std::cout << "\n\n------------------------" << std::endl;
-                        std::cout << "recv data from client:" << epoll_events[i].data.fd << "\nraw_data:\n"
-                                  << ch << std::endl;
-                        std::cout << "\n\n------------------------" << std::endl;
-                        std::cout << "client_ip:" << ip << "\nport:" << port << std::endl;
-                        std::cout << "------------------------\n\n"<< std::endl;
+                    
+                        // std::cout << "\n\n----------
                         threads.push_back(thread(&HttpParser::parseHeader,parser));
-                        httpParsers.insert(std::make_pair(fd, *parser));
+                        httpParsers.insert(std::make_pair(fd, parser));
                     }
                 }
             }
             else if ((epoll_events[i].events & EPOLLOUT) && epoll_events[i].data.fd != listenfd)
             {
                 int fd = epoll_events[i].data.fd;
-                std::map<int, HttpParser>::iterator it = httpParsers.find(fd);
+                std::cout << "------------------------" << std::endl;
+                std::cout<<"clientfd: "<<fd<<" EPOLLOUT"<<std::endl;
+                std::map<int, HttpParser*>::iterator it = httpParsers.find(fd);
                 if (it == httpParsers.end())
                 {
                     std::cout << "fail to get parser" << std::endl;
                 }
-                HttpParser parser = it->second;
-                threads.push_back(std::thread(&HttpParser::sendRes,&parser));
+                HttpParser* parser = it->second;
+                threads.push_back(std::thread(&HttpParser::sendRes,parser));
             }
         }
         for(auto iter = threads.begin();iter != threads.end();iter++){

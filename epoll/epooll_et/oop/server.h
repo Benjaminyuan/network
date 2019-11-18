@@ -21,7 +21,7 @@
 #include <functional>
 #include <atomic>
 #include<pthread.h>
-#define DEFAULT_PORT 3000
+#define DEFAULT_PORT 4000
 #define MAXCONN 1024
 #define BUFFSIZE 2048
 using namespace std;
@@ -34,7 +34,6 @@ class HttpParser
         int content_length;
         int  clientfd;
         const int *epoll_id;
-        std::string res;
         std::string method;
         std::string url;
         std::string protocal;
