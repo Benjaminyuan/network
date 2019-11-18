@@ -159,34 +159,11 @@ int HttpServer::Listen()
                     }else{
                         parser = new HttpParser(epollfd,fd);
                     }
-                    int m = parser->recvData();
-                    if (m == 0)
-                    {
-                        if (epoll_ctl(epollfd, EPOLL_CTL_DEL, fd, NULL) != -1)
-                        {
-                            std::cout << "client disconnected,clientfd:" << fd << std::endl;
-                        }
-                        close(fd);
-                    }
-                    else if (m < 0)
-                    {
-                        if (errno != EWOULDBLOCK && errno != EINTR)
-                        {
-                            if (epoll_ctl(epollfd, EPOLL_CTL_DEL, fd, NULL) != -1)
-                            {
-                                std::cout << "client disconnected,clientfd:" << fd << std::endl;
-                            }
-                            close(fd);
-                        }
-                    }
-                    else
-                    {
+                    // std::cout << "\n\n----------
+                    thread_pool.appendTask(std::bind(&HttpParser::parseHeader,parser));
+                    // threads.push_back(thread(&HttpParser::parseHeader,parser));
+                    httpParsers.insert(std::make_pair(fd, parser));
                     
-                        // std::cout << "\n\n----------
-                        thread_pool.appendTask(std::bind(&HttpParser::parseHeader,parser));
-                        // threads.push_back(thread(&HttpParser::parseHeader,parser));
-                        httpParsers.insert(std::make_pair(fd, parser));
-                    }
                 }
             }
             else if ((epoll_events[i].events & EPOLLOUT) && epoll_events[i].data.fd != listenfd)

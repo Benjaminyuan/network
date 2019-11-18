@@ -69,6 +69,29 @@ void HttpParser::parseHeaderContent(vector<string> headerList)
 }
 void HttpParser::parseHeader()
 {
+
+    int m = recvData();
+    if (m == 0)
+    {
+        if (epoll_ctl(*epoll_id, EPOLL_CTL_DEL, clientfd, NULL) != -1)
+        {
+            std::cout << "client disconnected,clientfd:" << clientfd << std::endl;
+        }
+        close(clientfd);
+        return;
+    }
+    else if (m < 0)
+    {
+        if (errno != EWOULDBLOCK && errno != EINTR)
+        {
+            if (epoll_ctl(*epoll_id, EPOLL_CTL_DEL, clientfd, NULL) != -1)
+            {
+                std::cout << "client disconnected,clientfd:" << clientfd<< std::endl;
+            }
+            close(clientfd);
+            return;
+        }
+    }
     vector<string> header;
     int i = 0;
     int lineStart = 0;
@@ -105,6 +128,15 @@ void HttpParser::parseHeader()
     readData();
 }
 
+void HttpParser::printHeaders(){
+    std::cout<<"-------- header content----------"<<std::endl;
+    auto iter = headers.begin();
+    while(iter != headers.end()){
+        std::cout<<"key: "<< iter->first << "value:"<<iter->second<<std::endl;
+        iter++;
+    }
+    std::cout<<"--------header content----------"<<std::endl;
+}
 void HttpParser::readData()
 {
     string path = base_dir+url;
@@ -153,7 +185,7 @@ void HttpParser::sendRes()
         std::cout << "长度" << strlen(temp) << std::endl;
         res.append(temp);
         // 添加请求头部
-        sprintf(temp, "%s: %s\r\n", "content-type", "image/jpeg");
+        sprintf(temp, "%s: %s\r\n", "content-type", Get("content-type").c_str());
         res.append(temp);
         sprintf(temp, "%s: %d\r\n", "content-length", content_length);
         res.append(temp);

@@ -52,5 +52,6 @@ class HttpParser
         void parseRequestBasicContent(const string s);
         void parseHeaderContent(vector<string> headers);
         void readData();
+        void printHeaders();
 };
 
