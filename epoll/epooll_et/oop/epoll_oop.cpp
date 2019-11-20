@@ -49,6 +49,7 @@ HttpServer::HttpServer(int num,int port)
         close(listenfd);
         throw std::logic_error("fail to bind listenfd!!");
     }
+    std::cout<<"bind port: "<< port<< " success"<<std::endl;
 }
 //创建epoll 实例
 int HttpServer::CreateEpoll()
@@ -191,11 +192,24 @@ int HttpServer::Listen()
 }
 int main(int argsc,char* argv[])
 {
-    if(argsc != 2){
-        std::cout<<"invalid params"<< std::endl;
+    int thread_pool_size = DEFAULT_THREAD_POOL_SIZE;
+    int port = DEFAULT_PORT;
+    if(argsc == 1){
+        std::cout<<"usging default thread_pool_size:12,port:3000"<< std::endl;
+    }else if (argsc == 2)
+    {
+        thread_pool_size = std::atoi(argv[1]);
+        std::cout<<"usging custom thread_pool_size: "<< thread_pool_size<<" ,default port:3000"<< std::endl;
+    }else if(argsc == 3){
+        thread_pool_size = std::atoi(argv[1]);
+        port =  std::atoi(argv[2]);
+        std::cout<<"usging custom thread_pool_size: "<< thread_pool_size<<" ,custom port:"<< port << std::endl;
+
+    }else{
+        std::cout<<"invalid initial params "<< std::endl;
+        return 0;
     }
-    int thread_pool_num = std::atoi(argv[1]);
-    HttpServer server(thread_pool_num,DEFAULT_PORT);
+    HttpServer server(thread_pool_size,port);
     server.CreateEpoll();
     server.Listen();
 }

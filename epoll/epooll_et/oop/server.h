@@ -27,6 +27,7 @@
 #include<algorithm>
 #include<cctype>
 #define DEFAULT_PORT 3000
+#define DEFAULT_THREAD_POOL_SIZE 12
 #define MAXCONN 1024
 #define BUFFSIZE 2048
 
