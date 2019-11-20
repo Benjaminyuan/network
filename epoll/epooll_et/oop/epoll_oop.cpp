@@ -231,7 +231,8 @@ int main(int argsc,char* argv[])
     std::cin >> temp;
     if(temp == 1){
         std::cout<<"输入最大线程数"<<std::endl;
-        std::cin>> thread_pool_size;
+        std::cin>> temp;
+        thread_pool_size = temp;
     }
     std::cout<<"usging custom thread_pool_size: "<< thread_pool_size<<" ,custom port:"<< port << "addr:"<< addr <<" working_dir: "<< dir << std::endl;
 
