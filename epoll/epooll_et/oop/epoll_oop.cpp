@@ -227,6 +227,12 @@ int main(int argsc,char* argv[])
         std::cout<<"输入主目录"<<std::endl;
         std::cin>> dir;
     }
+    std::cout<<"是否配置 线程池最大线程数,0 跳过，1配置"<<std::endl;
+    std::cin >> temp;
+    if(temp == 1){
+        std::cout<<"输入最大线程数"<<std::endl;
+        std::cin>> thread_pool_size;
+    }
     std::cout<<"usging custom thread_pool_size: "<< thread_pool_size<<" ,custom port:"<< port << "addr:"<< addr <<" working_dir: "<< dir << std::endl;
 
     HttpServer server(thread_pool_size,port,addr,dir);
