@@ -20,16 +20,16 @@ std::unordered_map<std::string,std::string> CONTENT = {
     {"exe","application/x-msdownload"},
     {"ppt","application/vnd.ms-powerpoint"},
 };
-HttpParser::HttpParser(int& epoll,int fd)
+HttpParser::HttpParser(int& epoll,int fd,string workdir)
 {
-    base_dir = "./public";
+    base_dir = workdir;
     clientfd = fd;
     epoll_id = &epoll;
     body = NULL;
     buff = new char[BUFFSIZE];
 }
-HttpParser::HttpParser(){
-    base_dir = "./public";
+HttpParser::HttpParser(string workdir){
+    base_dir = workdir ;
     buff = new char[BUFFSIZE];
 }
 int HttpParser::recvData(){
@@ -179,7 +179,13 @@ void HttpParser::printHeaders(){
 }
 void HttpParser::readData()
 {
-    string path = base_dir+url;
+    string path;
+    if(url == "/"){
+        path = base_dir+"/main.html";
+        std::cout<<"--main---"<<std::endl;
+    }else{
+        path = base_dir+url;
+    }
     std::cout << "readDat file_path:" << path << std::endl;
     ifstream in(path.c_str(), ios::in);
     struct stat s_buf;

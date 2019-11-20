@@ -3,7 +3,7 @@
 class HttpServer
 {
 public:
-    HttpServer(int num,int port);
+    HttpServer(int num,int port,uint32_t addr,string dir);
     int EpollOpt(int opt, int listenfd, int event);
     int CreateEpoll();
     int Listen();
@@ -12,6 +12,7 @@ private:
     int epollfd;
     int listenfd;
     int thread_pool_num;
+    std::string working_dir;
     std::map<int, HttpParser*> httpParsers;
     char buffData[2024][2024];
     struct sockaddr_in bind_addr;
@@ -20,9 +21,10 @@ private:
 // HttpServer::HttpServer() : HttpServer(DEFAULT_PORT)
 // {
 // }
-HttpServer::HttpServer(int num,int port)
+HttpServer::HttpServer(int num,int port,uint32_t addr,string dir)
 {
     thread_pool_num = num;
+    working_dir = dir;
     listenfd = socket(AF_INET, SOCK_STREAM, 0);
     if (listenfd == -1)
     {
@@ -42,7 +44,9 @@ HttpServer::HttpServer(int num,int port)
     }
     bind_addr.sin_family = AF_INET;
     bind_addr.sin_port = htons(port);
-    bind_addr.sin_addr.s_addr = htonl(INADDR_ANY);
+    // bind_addr.sin_addr.s_addr = htonl(INADDR_ANY);
+    bind_addr.sin_addr.s_addr = addr;
+
 
     if (bind(listenfd, (struct sockaddr *)&bind_addr, sizeof(bind_addr)) == -1)
     {
@@ -158,7 +162,7 @@ int HttpServer::Listen()
                         map<int,HttpParser*>::iterator it = httpParsers.find(fd);
                         parser = (it->second);
                     }else{
-                        parser = new HttpParser(epollfd,fd);
+                        parser = new HttpParser(epollfd,fd,working_dir);
                     }
                     // std::cout << "\n\n----------
                     thread_pool.appendTask(std::bind(&HttpParser::parseHeader,parser));
@@ -194,22 +198,38 @@ int main(int argsc,char* argv[])
 {
     int thread_pool_size = DEFAULT_THREAD_POOL_SIZE;
     int port = DEFAULT_PORT;
-    if(argsc == 1){
-        std::cout<<"usging default thread_pool_size:12,port:3000"<< std::endl;
-    }else if (argsc == 2)
-    {
-        thread_pool_size = std::atoi(argv[1]);
-        std::cout<<"usging custom thread_pool_size: "<< thread_pool_size<<" ,default port:3000"<< std::endl;
-    }else if(argsc == 3){
-        thread_pool_size = std::atoi(argv[1]);
-        port =  std::atoi(argv[2]);
-        std::cout<<"usging custom thread_pool_size: "<< thread_pool_size<<" ,custom port:"<< port << std::endl;
+    uint32_t addr = htonl(INADDR_ANY);
+    std::string dir = WORKINGDIR;
 
-    }else{
-        std::cout<<"invalid initial params "<< std::endl;
-        return 0;
+    int temp ;
+    std::cout<<"是否配置 监听地址,0 跳过，1配置"<<std::endl;
+    std::cin >> temp;
+    if(temp == 1){
+        char temp_addr[20];
+        std::cout<<"输入监听地址"<<std::endl;
+        std::cin>> temp_addr;
+        addr = inet_addr(temp_addr);
+        struct sockaddr_in sa;
+        sa.sin_addr.s_addr = addr;
+        std::cout<< "ip:"<<inet_ntoa(sa.sin_addr)<<std::endl;
     }
-    HttpServer server(thread_pool_size,port);
+
+    std::cout<<"是否配置 port,0 跳过，1配置"<<std::endl;
+    std::cin >> temp;
+    if(temp == 1){
+        std::cout<<"输入port"<<std::endl;
+        std::cin>> port;
+    }
+
+    std::cout<<"是否配置 主目录,0 跳过，1配置"<<std::endl;
+    std::cin >> temp;
+    if(temp == 1){
+        std::cout<<"输入主目录"<<std::endl;
+        std::cin>> dir;
+    }
+    std::cout<<"usging custom thread_pool_size: "<< thread_pool_size<<" ,custom port:"<< port << "addr:"<< addr <<" working_dir: "<< dir << std::endl;
+
+    HttpServer server(thread_pool_size,port,addr,dir);
     server.CreateEpoll();
     server.Listen();
 }

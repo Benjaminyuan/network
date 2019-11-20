@@ -30,7 +30,8 @@
 #define DEFAULT_THREAD_POOL_SIZE 12
 #define MAXCONN 1024
 #define BUFFSIZE 2048
-
+#define DEFAULT_ADDR 
+#define WORKINGDIR "./public"
 using namespace std;
 
 class HttpParser
@@ -47,9 +48,9 @@ class HttpParser
         std::string protocal;
         std::string base_dir;
         map<string,string> headers;
-        HttpParser();
         string Get(string key);
-        HttpParser(int& epoll,int fd);
+        HttpParser(int& epoll,int fd,std::string workdir);
+        HttpParser(string workdir);
         void parseHeader();
         void finishRequest();
         int recvData();
