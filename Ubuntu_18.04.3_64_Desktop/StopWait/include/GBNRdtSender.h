@@ -1,11 +1,16 @@
-#ifndef STOP_WAIT_RDT_SENDER_H
-#define STOP_WAIT_RDT_SENDER_H
+#ifndef GBN_RDT_SENDER_H
+#define GBN_RDT_SENDER_H
 #include "RdtSender.h"
+#include<deque>
 class GBNRdtSender :public RdtSender
 {
 private:
-	int expectSequenceNumberSend;	// 下一个发送序号 
-	bool waitingState;				// 是否处于等待Ack的状态
+	int nextSeqNum;	// 下一个发送序号 
+	int base;
+	deque<Packet> pkt_queue;
+	bool waitingState;
+
+					// 是否处于等待Ack的状态
 	Packet packetWaitingAck;		//已发送并等待Ack的数据包
 
 public:
