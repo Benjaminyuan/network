@@ -1,0 +1,19 @@
+This is ApacheBench, Version 2.3 <$Revision: 1843412 $>
+Copyright 1996 Adam Twiss, Zeus Technology Ltd, http://www.zeustech.net/
+Licensed to The Apache Software Foundation, http://www.apache.org/
+
+Benchmarking 39.97.288 (be patient)...
+
+Server Software:        
+Server Hostname:        39.97.288
+Server Port:            4000
+
+Document Path:          /image/Gakki.jpg
+Document Length:        0 bytes
+
+Concurrency Level:      10
+Time taken for tests:   19.926 seconds
+Complete requests:      0
+Failed requests:        0
+Total transferred:      0 bytes
+HTML transferred:       0 bytes

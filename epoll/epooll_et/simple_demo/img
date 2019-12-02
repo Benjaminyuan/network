@@ -1,0 +1,42 @@
+This is ApacheBench, Version 2.3 <$Revision: 1843412 $>
+Copyright 1996 Adam Twiss, Zeus Technology Ltd, http://www.zeustech.net/
+Licensed to The Apache Software Foundation, http://www.apache.org/
+
+Benchmarking 39.97.228.101 (be patient).....done
+
+
+Server Software:        
+Server Hostname:        39.97.228.101
+Server Port:            3000
+
+Document Path:          /image/Gakki.jpg
+Document Length:        48963 bytes
+
+Concurrency Level:      10
+Time taken for tests:   37.473 seconds
+Complete requests:      100
+Failed requests:        0
+Total transferred:      4903100 bytes
+HTML transferred:       4896300 bytes
+Requests per second:    2.67 [#/sec] (mean)
+Time per request:       3747.347 [ms] (mean)
+Time per request:       374.735 [ms] (mean, across all concurrent requests)
+Transfer rate:          127.78 [Kbytes/sec] received
+
+Connection Times (ms)
+              min  mean[+/-sd] median   max
+Connect:       24   79 100.7     43     516
+Processing:   500 3559 1971.6   3283   11670
+Waiting:       24  269 275.7    175    2017
+Total:        620 3638 1961.1   3334   11707
+
+Percentage of the requests served within a certain time (ms)
+  50%   3334
+  66%   4009
+  75%   4803
+  80%   5103
+  90%   5938
+  95%   7348
+  98%   9379
+  99%  11707
+ 100%  11707 (longest request)
