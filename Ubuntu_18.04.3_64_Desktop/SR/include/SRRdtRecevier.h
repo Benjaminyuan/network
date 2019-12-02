@@ -1,11 +1,14 @@
 #ifndef GBN_RDT_RECEIVER_H
 #define GBN_RDT_RECEIVER_H
+#include<unordered_map> 
 #include "RdtReceiver.h"
+using namespace std;
 class SRRdtReceiver :public RdtReceiver
 {
 private:
-	int expectSeqNum;	// 期待收到的下一个报文序号
+	int recv_base;	// 期待收到的下一个报文序号
 	Packet sndPkt;
+	unordered_map<int,Packet> recv_map;
 public:
 	SRRdtReceiver();
 	virtual ~SRRdtReceiver();

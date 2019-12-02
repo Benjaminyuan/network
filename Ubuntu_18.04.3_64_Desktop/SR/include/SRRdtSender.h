@@ -2,13 +2,14 @@
 #define GBN_RDT_SENDER_H
 #include "RdtSender.h"
 #include<deque>
+#include<unordered_map>
 using namespace std;
 class SRRdtSender :public RdtSender
 {
 private:
 	int nextSeqNum;	// 下一个发送序号 
 	int base;
-	deque<Packet> pkt_queue;
+	unordered_map<int,Packet> pkt_map;
 	bool waitingState;
 
 					// 是否处于等待Ack的状态

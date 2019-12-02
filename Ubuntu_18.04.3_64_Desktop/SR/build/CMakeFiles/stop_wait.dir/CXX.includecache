@@ -8,16 +8,6 @@
 
 ../include/DataStructure.h
 
-../include/GBNRdtRecevier.h
-RdtReceiver.h
-../include/RdtReceiver.h
-
-../include/GBNRdtSender.h
-RdtSender.h
-../include/RdtSender.h
-deque
--
-
 ../include/Global.h
 Tool.h
 ../include/Tool.h
@@ -50,19 +40,33 @@ DataStructure.h
 DataStructure.h
 ../include/DataStructure.h
 
+../include/SRRdtRecevier.h
+unordered_map
+-
+RdtReceiver.h
+../include/RdtReceiver.h
+
+../include/SRRdtSender.h
+RdtSender.h
+../include/RdtSender.h
+deque
+-
+unordered_map
+-
+
 ../include/Tool.h
 DataStructure.h
 ../include/DataStructure.h
 
-/root/network/network/Ubuntu_18.04.3_64_Desktop/StopWait/src/GBNRdtReceiver.cpp
+/root/network/network/Ubuntu_18.04.3_64_Desktop/SR/src/SRRdtReceiver.cpp
 Global.h
-/root/network/network/Ubuntu_18.04.3_64_Desktop/StopWait/src/Global.h
-GBNRdtRecevier.h
-/root/network/network/Ubuntu_18.04.3_64_Desktop/StopWait/src/GBNRdtRecevier.h
+/root/network/network/Ubuntu_18.04.3_64_Desktop/SR/src/Global.h
+SRRdtRecevier.h
+/root/network/network/Ubuntu_18.04.3_64_Desktop/SR/src/SRRdtRecevier.h
 
-/root/network/network/Ubuntu_18.04.3_64_Desktop/StopWait/src/GBNRdtSender.cpp
+/root/network/network/Ubuntu_18.04.3_64_Desktop/SR/src/SRRdtSender.cpp
 Global.h
-/root/network/network/Ubuntu_18.04.3_64_Desktop/StopWait/src/Global.h
-GBNRdtSender.h
-/root/network/network/Ubuntu_18.04.3_64_Desktop/StopWait/src/GBNRdtSender.h
+/root/network/network/Ubuntu_18.04.3_64_Desktop/SR/src/Global.h
+SRRdtSender.h
+/root/network/network/Ubuntu_18.04.3_64_Desktop/SR/src/SRRdtSender.h
 

@@ -43,10 +43,10 @@ RM = /opt/cmake-3.12.2/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /root/network/network/Ubuntu_18.04.3_64_Desktop/StopWait
+CMAKE_SOURCE_DIR = /root/network/network/Ubuntu_18.04.3_64_Desktop/SR
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /root/network/network/Ubuntu_18.04.3_64_Desktop/StopWait/build
+CMAKE_BINARY_DIR = /root/network/network/Ubuntu_18.04.3_64_Desktop/SR/build
 
 # Include any dependencies generated for this target.
 include CMakeFiles/stop_wait.dir/depend.make
@@ -57,75 +57,75 @@ include CMakeFiles/stop_wait.dir/progress.make
 # Include the compile flags for this target's objects.
 include CMakeFiles/stop_wait.dir/flags.make
 
-CMakeFiles/stop_wait.dir/src/GBNRdtReceiver.cpp.o: CMakeFiles/stop_wait.dir/flags.make
-CMakeFiles/stop_wait.dir/src/GBNRdtReceiver.cpp.o: ../src/GBNRdtReceiver.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/network/network/Ubuntu_18.04.3_64_Desktop/StopWait/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/stop_wait.dir/src/GBNRdtReceiver.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/stop_wait.dir/src/GBNRdtReceiver.cpp.o -c /root/network/network/Ubuntu_18.04.3_64_Desktop/StopWait/src/GBNRdtReceiver.cpp
+CMakeFiles/stop_wait.dir/src/SRRdtReceiver.cpp.o: CMakeFiles/stop_wait.dir/flags.make
+CMakeFiles/stop_wait.dir/src/SRRdtReceiver.cpp.o: ../src/SRRdtReceiver.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/network/network/Ubuntu_18.04.3_64_Desktop/SR/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/stop_wait.dir/src/SRRdtReceiver.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/stop_wait.dir/src/SRRdtReceiver.cpp.o -c /root/network/network/Ubuntu_18.04.3_64_Desktop/SR/src/SRRdtReceiver.cpp
 
-CMakeFiles/stop_wait.dir/src/GBNRdtReceiver.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/stop_wait.dir/src/GBNRdtReceiver.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /root/network/network/Ubuntu_18.04.3_64_Desktop/StopWait/src/GBNRdtReceiver.cpp > CMakeFiles/stop_wait.dir/src/GBNRdtReceiver.cpp.i
+CMakeFiles/stop_wait.dir/src/SRRdtReceiver.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/stop_wait.dir/src/SRRdtReceiver.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /root/network/network/Ubuntu_18.04.3_64_Desktop/SR/src/SRRdtReceiver.cpp > CMakeFiles/stop_wait.dir/src/SRRdtReceiver.cpp.i
 
-CMakeFiles/stop_wait.dir/src/GBNRdtReceiver.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/stop_wait.dir/src/GBNRdtReceiver.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /root/network/network/Ubuntu_18.04.3_64_Desktop/StopWait/src/GBNRdtReceiver.cpp -o CMakeFiles/stop_wait.dir/src/GBNRdtReceiver.cpp.s
+CMakeFiles/stop_wait.dir/src/SRRdtReceiver.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/stop_wait.dir/src/SRRdtReceiver.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /root/network/network/Ubuntu_18.04.3_64_Desktop/SR/src/SRRdtReceiver.cpp -o CMakeFiles/stop_wait.dir/src/SRRdtReceiver.cpp.s
 
-CMakeFiles/stop_wait.dir/src/GBNRdtSender.cpp.o: CMakeFiles/stop_wait.dir/flags.make
-CMakeFiles/stop_wait.dir/src/GBNRdtSender.cpp.o: ../src/GBNRdtSender.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/network/network/Ubuntu_18.04.3_64_Desktop/StopWait/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/stop_wait.dir/src/GBNRdtSender.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/stop_wait.dir/src/GBNRdtSender.cpp.o -c /root/network/network/Ubuntu_18.04.3_64_Desktop/StopWait/src/GBNRdtSender.cpp
+CMakeFiles/stop_wait.dir/src/SRRdtSender.cpp.o: CMakeFiles/stop_wait.dir/flags.make
+CMakeFiles/stop_wait.dir/src/SRRdtSender.cpp.o: ../src/SRRdtSender.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/network/network/Ubuntu_18.04.3_64_Desktop/SR/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/stop_wait.dir/src/SRRdtSender.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/stop_wait.dir/src/SRRdtSender.cpp.o -c /root/network/network/Ubuntu_18.04.3_64_Desktop/SR/src/SRRdtSender.cpp
 
-CMakeFiles/stop_wait.dir/src/GBNRdtSender.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/stop_wait.dir/src/GBNRdtSender.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /root/network/network/Ubuntu_18.04.3_64_Desktop/StopWait/src/GBNRdtSender.cpp > CMakeFiles/stop_wait.dir/src/GBNRdtSender.cpp.i
+CMakeFiles/stop_wait.dir/src/SRRdtSender.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/stop_wait.dir/src/SRRdtSender.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /root/network/network/Ubuntu_18.04.3_64_Desktop/SR/src/SRRdtSender.cpp > CMakeFiles/stop_wait.dir/src/SRRdtSender.cpp.i
 
-CMakeFiles/stop_wait.dir/src/GBNRdtSender.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/stop_wait.dir/src/GBNRdtSender.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /root/network/network/Ubuntu_18.04.3_64_Desktop/StopWait/src/GBNRdtSender.cpp -o CMakeFiles/stop_wait.dir/src/GBNRdtSender.cpp.s
+CMakeFiles/stop_wait.dir/src/SRRdtSender.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/stop_wait.dir/src/SRRdtSender.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /root/network/network/Ubuntu_18.04.3_64_Desktop/SR/src/SRRdtSender.cpp -o CMakeFiles/stop_wait.dir/src/SRRdtSender.cpp.s
 
 CMakeFiles/stop_wait.dir/src/StopWait.cpp.o: CMakeFiles/stop_wait.dir/flags.make
 CMakeFiles/stop_wait.dir/src/StopWait.cpp.o: ../src/StopWait.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/network/network/Ubuntu_18.04.3_64_Desktop/StopWait/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/stop_wait.dir/src/StopWait.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/stop_wait.dir/src/StopWait.cpp.o -c /root/network/network/Ubuntu_18.04.3_64_Desktop/StopWait/src/StopWait.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/network/network/Ubuntu_18.04.3_64_Desktop/SR/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/stop_wait.dir/src/StopWait.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/stop_wait.dir/src/StopWait.cpp.o -c /root/network/network/Ubuntu_18.04.3_64_Desktop/SR/src/StopWait.cpp
 
 CMakeFiles/stop_wait.dir/src/StopWait.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/stop_wait.dir/src/StopWait.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /root/network/network/Ubuntu_18.04.3_64_Desktop/StopWait/src/StopWait.cpp > CMakeFiles/stop_wait.dir/src/StopWait.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /root/network/network/Ubuntu_18.04.3_64_Desktop/SR/src/StopWait.cpp > CMakeFiles/stop_wait.dir/src/StopWait.cpp.i
 
 CMakeFiles/stop_wait.dir/src/StopWait.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/stop_wait.dir/src/StopWait.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /root/network/network/Ubuntu_18.04.3_64_Desktop/StopWait/src/StopWait.cpp -o CMakeFiles/stop_wait.dir/src/StopWait.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /root/network/network/Ubuntu_18.04.3_64_Desktop/SR/src/StopWait.cpp -o CMakeFiles/stop_wait.dir/src/StopWait.cpp.s
 
 CMakeFiles/stop_wait.dir/src/StopWaitRdtReceiver.cpp.o: CMakeFiles/stop_wait.dir/flags.make
 CMakeFiles/stop_wait.dir/src/StopWaitRdtReceiver.cpp.o: ../src/StopWaitRdtReceiver.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/network/network/Ubuntu_18.04.3_64_Desktop/StopWait/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/stop_wait.dir/src/StopWaitRdtReceiver.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/stop_wait.dir/src/StopWaitRdtReceiver.cpp.o -c /root/network/network/Ubuntu_18.04.3_64_Desktop/StopWait/src/StopWaitRdtReceiver.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/network/network/Ubuntu_18.04.3_64_Desktop/SR/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/stop_wait.dir/src/StopWaitRdtReceiver.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/stop_wait.dir/src/StopWaitRdtReceiver.cpp.o -c /root/network/network/Ubuntu_18.04.3_64_Desktop/SR/src/StopWaitRdtReceiver.cpp
 
 CMakeFiles/stop_wait.dir/src/StopWaitRdtReceiver.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/stop_wait.dir/src/StopWaitRdtReceiver.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /root/network/network/Ubuntu_18.04.3_64_Desktop/StopWait/src/StopWaitRdtReceiver.cpp > CMakeFiles/stop_wait.dir/src/StopWaitRdtReceiver.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /root/network/network/Ubuntu_18.04.3_64_Desktop/SR/src/StopWaitRdtReceiver.cpp > CMakeFiles/stop_wait.dir/src/StopWaitRdtReceiver.cpp.i
 
 CMakeFiles/stop_wait.dir/src/StopWaitRdtReceiver.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/stop_wait.dir/src/StopWaitRdtReceiver.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /root/network/network/Ubuntu_18.04.3_64_Desktop/StopWait/src/StopWaitRdtReceiver.cpp -o CMakeFiles/stop_wait.dir/src/StopWaitRdtReceiver.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /root/network/network/Ubuntu_18.04.3_64_Desktop/SR/src/StopWaitRdtReceiver.cpp -o CMakeFiles/stop_wait.dir/src/StopWaitRdtReceiver.cpp.s
 
 CMakeFiles/stop_wait.dir/src/StopWaitRdtSender.cpp.o: CMakeFiles/stop_wait.dir/flags.make
 CMakeFiles/stop_wait.dir/src/StopWaitRdtSender.cpp.o: ../src/StopWaitRdtSender.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/network/network/Ubuntu_18.04.3_64_Desktop/StopWait/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/stop_wait.dir/src/StopWaitRdtSender.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/stop_wait.dir/src/StopWaitRdtSender.cpp.o -c /root/network/network/Ubuntu_18.04.3_64_Desktop/StopWait/src/StopWaitRdtSender.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/network/network/Ubuntu_18.04.3_64_Desktop/SR/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/stop_wait.dir/src/StopWaitRdtSender.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/stop_wait.dir/src/StopWaitRdtSender.cpp.o -c /root/network/network/Ubuntu_18.04.3_64_Desktop/SR/src/StopWaitRdtSender.cpp
 
 CMakeFiles/stop_wait.dir/src/StopWaitRdtSender.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/stop_wait.dir/src/StopWaitRdtSender.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /root/network/network/Ubuntu_18.04.3_64_Desktop/StopWait/src/StopWaitRdtSender.cpp > CMakeFiles/stop_wait.dir/src/StopWaitRdtSender.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /root/network/network/Ubuntu_18.04.3_64_Desktop/SR/src/StopWaitRdtSender.cpp > CMakeFiles/stop_wait.dir/src/StopWaitRdtSender.cpp.i
 
 CMakeFiles/stop_wait.dir/src/StopWaitRdtSender.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/stop_wait.dir/src/StopWaitRdtSender.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /root/network/network/Ubuntu_18.04.3_64_Desktop/StopWait/src/StopWaitRdtSender.cpp -o CMakeFiles/stop_wait.dir/src/StopWaitRdtSender.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /root/network/network/Ubuntu_18.04.3_64_Desktop/SR/src/StopWaitRdtSender.cpp -o CMakeFiles/stop_wait.dir/src/StopWaitRdtSender.cpp.s
 
 # Object files for target stop_wait
 stop_wait_OBJECTS = \
-"CMakeFiles/stop_wait.dir/src/GBNRdtReceiver.cpp.o" \
-"CMakeFiles/stop_wait.dir/src/GBNRdtSender.cpp.o" \
+"CMakeFiles/stop_wait.dir/src/SRRdtReceiver.cpp.o" \
+"CMakeFiles/stop_wait.dir/src/SRRdtSender.cpp.o" \
 "CMakeFiles/stop_wait.dir/src/StopWait.cpp.o" \
 "CMakeFiles/stop_wait.dir/src/StopWaitRdtReceiver.cpp.o" \
 "CMakeFiles/stop_wait.dir/src/StopWaitRdtSender.cpp.o"
@@ -133,15 +133,15 @@ stop_wait_OBJECTS = \
 # External object files for target stop_wait
 stop_wait_EXTERNAL_OBJECTS =
 
-../bin/stop_wait: CMakeFiles/stop_wait.dir/src/GBNRdtReceiver.cpp.o
-../bin/stop_wait: CMakeFiles/stop_wait.dir/src/GBNRdtSender.cpp.o
+../bin/stop_wait: CMakeFiles/stop_wait.dir/src/SRRdtReceiver.cpp.o
+../bin/stop_wait: CMakeFiles/stop_wait.dir/src/SRRdtSender.cpp.o
 ../bin/stop_wait: CMakeFiles/stop_wait.dir/src/StopWait.cpp.o
 ../bin/stop_wait: CMakeFiles/stop_wait.dir/src/StopWaitRdtReceiver.cpp.o
 ../bin/stop_wait: CMakeFiles/stop_wait.dir/src/StopWaitRdtSender.cpp.o
 ../bin/stop_wait: CMakeFiles/stop_wait.dir/build.make
 ../bin/stop_wait: ../lib/libnetsim.a
 ../bin/stop_wait: CMakeFiles/stop_wait.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/root/network/network/Ubuntu_18.04.3_64_Desktop/StopWait/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Linking CXX executable ../bin/stop_wait"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/root/network/network/Ubuntu_18.04.3_64_Desktop/SR/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Linking CXX executable ../bin/stop_wait"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/stop_wait.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -154,6 +154,6 @@ CMakeFiles/stop_wait.dir/clean:
 .PHONY : CMakeFiles/stop_wait.dir/clean
 
 CMakeFiles/stop_wait.dir/depend:
-	cd /root/network/network/Ubuntu_18.04.3_64_Desktop/StopWait/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /root/network/network/Ubuntu_18.04.3_64_Desktop/StopWait /root/network/network/Ubuntu_18.04.3_64_Desktop/StopWait /root/network/network/Ubuntu_18.04.3_64_Desktop/StopWait/build /root/network/network/Ubuntu_18.04.3_64_Desktop/StopWait/build /root/network/network/Ubuntu_18.04.3_64_Desktop/StopWait/build/CMakeFiles/stop_wait.dir/DependInfo.cmake --color=$(COLOR)
+	cd /root/network/network/Ubuntu_18.04.3_64_Desktop/SR/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /root/network/network/Ubuntu_18.04.3_64_Desktop/SR /root/network/network/Ubuntu_18.04.3_64_Desktop/SR /root/network/network/Ubuntu_18.04.3_64_Desktop/SR/build /root/network/network/Ubuntu_18.04.3_64_Desktop/SR/build /root/network/network/Ubuntu_18.04.3_64_Desktop/SR/build/CMakeFiles/stop_wait.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/stop_wait.dir/depend
 
