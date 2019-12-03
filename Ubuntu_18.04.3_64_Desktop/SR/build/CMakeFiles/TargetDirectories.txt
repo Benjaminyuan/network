@@ -1,3 +1,0 @@
-/root/network/network/Ubuntu_18.04.3_64_Desktop/SR/build/CMakeFiles/edit_cache.dir
-/root/network/network/Ubuntu_18.04.3_64_Desktop/SR/build/CMakeFiles/rebuild_cache.dir
-/root/network/network/Ubuntu_18.04.3_64_Desktop/SR/build/CMakeFiles/stop_wait.dir
