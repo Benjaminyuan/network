@@ -55,6 +55,7 @@ void SRRdtSender::receive(const Packet &ackPkt){
                 }
             }
         }
+        std::cout << "滑动窗口移动: "<< ackPkt.acknum<< "-->"<<base<<std::endl;
     }else if(ackPkt.acknum > base && ackPkt.acknum < base+SR_N){
         if(pkt_map.count(ackPkt.acknum) == 0){
             return ;

@@ -42,6 +42,7 @@ void TCPRdtSender::receive(const Packet &ackPkt){
         return ;
     }
     if(ackPkt.acknum > base){
+        std::cout << "滑动窗口移动: "<< base << "--->"<< ackPkt.acknum << std::endl;
 		base = ackPkt.acknum;
         if(timer_status == true) {
             pns->stopTimer(SENDER,-1);

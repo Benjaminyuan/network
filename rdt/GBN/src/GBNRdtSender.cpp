@@ -1,6 +1,6 @@
 #include "Global.h"
 #include"GBNRdtSender.h"
-
+#include<iostream> 
 GBNRdtSender::GBNRdtSender():nextSeqNum(1),waitingState(false),base(1){
 
 }
@@ -41,6 +41,7 @@ void GBNRdtSender::receive(const Packet &ackPkt){
     // 接收到正常的ACk，将pkt移出处队列,不正常的直接忽略
     if(ackPkt.acknum >= pkt_queue.front().seqnum){
 		pUtils->printPacket("sender-recv:接收方正确收到", ackPkt);
+        std::cout << "滑动窗口移动: "<< base << "--->"<<ackPkt.acknum+1<<std::endl;
         base = ackPkt.acknum +1;
         int pos = 0;
         for(int i=0;i<pkt_queue.size();i++){
