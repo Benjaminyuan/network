@@ -4,7 +4,7 @@
 class TCPRdtReceiver :public RdtReceiver
 {
 private:
-	int expectSeqNum;	// 期待收到的下一个报文序号
+	unsigned int expectSeqNum;	// 期待收到的下一个报文序号
 	Packet sndPkt;
 public:
 	TCPRdtReceiver();

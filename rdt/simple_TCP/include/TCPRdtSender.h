@@ -5,8 +5,8 @@
 class TCPRdtSender :public RdtSender
 {
 private:
-	int nextSeqNum;	// 下一个发送序号 
-	int base;
+	unsigned int nextSeqNum;	// 下一个发送序号 
+	unsigned int base;
 	bool timer_status;
 	int accumulate_sum;
 	deque<Packet> pkt_queue;

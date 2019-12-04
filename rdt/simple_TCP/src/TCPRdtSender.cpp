@@ -13,7 +13,7 @@ bool TCPRdtSender::getWaitingState(){
 
 bool TCPRdtSender::send(const Message &messages){
     // 超出窗口大小，refuse
-    if(nextSeqNum >= base+ TCP_N){
+    if(after(nextSeqNum,base+TCP_N)){
         return false;
     }
     Packet pkt;
@@ -41,14 +41,14 @@ void TCPRdtSender::receive(const Packet &ackPkt){
 		pUtils->printPacket("sender-recv:接收方没有正确收到发送方的报文,数据校验错误", ackPkt);
         return ;
     }
-    if(ackPkt.acknum > base){
+    if(after(ackPkt.acknum,base)){
         std::cout << "滑动窗口移动: "<< base << "--->"<< ackPkt.acknum << std::endl;
 		base = ackPkt.acknum;
         if(timer_status == true) {
             pns->stopTimer(SENDER,-1);
         }
         //累计确认
-        while (pkt_queue.size() !=0 && pkt_queue.front().seqnum < base)
+        while (pkt_queue.size() !=0 && before(pkt_queue.front().seqnum , base))
         {
             pkt_queue.pop_front();
         }
