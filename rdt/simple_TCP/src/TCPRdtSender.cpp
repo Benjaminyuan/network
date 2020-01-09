@@ -22,7 +22,7 @@ bool TCPRdtSender::send(const Message &messages){
     pkt.checksum = 0;
     memcpy(pkt.payload,messages.data,sizeof(messages.data));
     pkt.checksum = pUtils->calculateCheckSum(pkt);
-	pUtils->printPacket("发送方发送报文", pkt);
+	pUtils->printPacket("发送方发送报文", pkt;
     pns->sendToNetworkLayer(RECEIVER,pkt);
     pkt_queue.push_back(pkt);
     // 没有定时器打开
